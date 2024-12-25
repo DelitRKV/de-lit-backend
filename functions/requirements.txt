@@ -1,4 +1,1 @@
-firebase-admin==6.6.0
-firebase-functions
-fastapi
-aiohttp
+firebase_functions~=0.1.0
