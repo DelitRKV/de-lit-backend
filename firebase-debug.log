@@ -1,0 +1,346 @@
+[debug] [2024-12-24T09:16:56.074Z] ----------------------------------------------------------------------
+[debug] [2024-12-24T09:16:56.085Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\phani\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js emulators:start
+[debug] [2024-12-24T09:16:56.086Z] CLI Version:   13.29.1
+[debug] [2024-12-24T09:16:56.086Z] Platform:      win32
+[debug] [2024-12-24T09:16:56.086Z] Node Version:  v20.18.0
+[debug] [2024-12-24T09:16:56.086Z] Time:          Tue Dec 24 2024 14:46:56 GMT+0530 (India Standard Time)
+[debug] [2024-12-24T09:16:56.086Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2024-12-24T09:16:56.091Z] >>> [apiv2][query] GET https://firebase-public.firebaseio.com/cli.json [none]
+[debug] [2024-12-24T09:16:56.331Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2024-12-24T09:16:56.332Z] > authorizing via signed-in user (de-lit.club@rguktrkv.ac.in)
+[debug] [2024-12-24T09:16:56.556Z] java version "21.0.5" 2024-10-15 LTS
+Java(TM) SE Runtime Environment (build 21.0.5+9-LTS-239)
+Java HotSpot(TM) 64-Bit Server VM (build 21.0.5+9-LTS-239, mixed mode, sharing)
+
+[debug] [2024-12-24T09:16:56.588Z] Parsed Java major version: 21
+[info] i  emulators: Starting emulators: auth, functions, firestore, hosting, extensions {"metadata":{"emulator":{"name":"hub"},"message":"Starting emulators: auth, functions, firestore, hosting, extensions"}}
+[debug] [2024-12-24T09:16:56.593Z] Checked if tokens are valid: false, expires at: 1734874078074
+[debug] [2024-12-24T09:16:56.593Z] Checked if tokens are valid: false, expires at: 1734874078074
+[debug] [2024-12-24T09:16:56.594Z] > refreshing access token with scopes: []
+[debug] [2024-12-24T09:16:56.595Z] >>> [apiv2][query] POST https://www.googleapis.com/oauth2/v3/token [none]
+[debug] [2024-12-24T09:16:56.596Z] >>> [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2024-12-24T09:17:02.471Z] <<< [apiv2][status] GET https://firebase-public.firebaseio.com/cli.json 200
+[debug] [2024-12-24T09:17:02.471Z] <<< [apiv2][body] GET https://firebase-public.firebaseio.com/cli.json {"cloudBuildErrorAfter":1594252800000,"cloudBuildWarnAfter":1590019200000,"defaultNode10After":1594252800000,"minVersion":"3.0.5","node8DeploysDisabledAfter":1613390400000,"node8RuntimeDisabledAfter":1615809600000,"node8WarnAfter":1600128000000}
+[debug] [2024-12-24T09:17:07.981Z] <<< [apiv2][status] POST https://www.googleapis.com/oauth2/v3/token 200
+[debug] [2024-12-24T09:17:07.981Z] <<< [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2024-12-24T09:17:07.991Z] >>> [apiv2][query] GET https://cloudresourcemanager.googleapis.com/v1/projects/de-lit-web [none]
+[debug] [2024-12-24T09:17:19.964Z] <<< [apiv2][status] GET https://cloudresourcemanager.googleapis.com/v1/projects/de-lit-web 200
+[debug] [2024-12-24T09:17:19.964Z] <<< [apiv2][body] GET https://cloudresourcemanager.googleapis.com/v1/projects/de-lit-web {"projectNumber":"957352433832","projectId":"de-lit-web","lifecycleState":"ACTIVE","name":"De-Lit-web","labels":{"firebase":"enabled","firebase-core":"disabled"},"createTime":"2024-12-21T08:42:13.392717Z","parent":{"type":"organization","id":"902715273619"}}
+[warn] !  hosting: The hosting emulator is configured but there is no hosting configuration. Have you run firebase init hosting? {"metadata":{"emulator":{"name":"hosting"},"message":"The hosting emulator is configured but there is no hosting configuration. Have you run \u001b[1mfirebase init hosting\u001b[22m?"}}
+[debug] [2024-12-24T09:17:19.984Z] [logging] Logging Emulator only supports listening on one address (127.0.0.1). Not listening on ::1
+[debug] [2024-12-24T09:17:19.984Z] [auth] Authentication Emulator only supports listening on one address (127.0.0.1). Not listening on ::1
+[debug] [2024-12-24T09:17:19.984Z] [firestore] Firestore Emulator only supports listening on one address (127.0.0.1). Not listening on ::1
+[debug] [2024-12-24T09:17:19.985Z] [firestore.websocket] websocket server for firestore only supports listening on one address (127.0.0.1). Not listening on ::1
+[debug] [2024-12-24T09:17:19.985Z] assigned listening specs for emulators {"user":{"hub":[{"address":"127.0.0.1","family":"IPv4","port":4400},{"address":"::1","family":"IPv6","port":4400}],"ui":[{"address":"127.0.0.1","family":"IPv4","port":4000},{"address":"::1","family":"IPv6","port":4000}],"logging":[{"address":"127.0.0.1","family":"IPv4","port":4500}],"auth":[{"address":"127.0.0.1","family":"IPv4","port":9099}],"firestore":[{"address":"127.0.0.1","family":"IPv4","port":8080}],"firestore.websocket":[{"address":"127.0.0.1","family":"IPv4","port":9150}]},"metadata":{"message":"assigned listening specs for emulators"}}
+[debug] [2024-12-24T09:17:19.991Z] [hub] writing locator at C:\Users\phani\AppData\Local\Temp\hub-de-lit-web.json
+[debug] [2024-12-24T09:17:20.003Z] [Extensions] Started Extensions emulator, this is a noop.
+[debug] [2024-12-24T09:17:20.010Z] [functions] Functions Emulator only supports listening on one address (127.0.0.1). Not listening on ::1
+[debug] [2024-12-24T09:17:20.010Z] [eventarc] Eventarc Emulator only supports listening on one address (127.0.0.1). Not listening on ::1
+[debug] [2024-12-24T09:17:20.010Z] [tasks] Cloud Tasks Emulator only supports listening on one address (127.0.0.1). Not listening on ::1
+[debug] [2024-12-24T09:17:20.010Z] late-assigned ports for functions and eventarc emulators {"user":{"hub":[{"address":"127.0.0.1","family":"IPv4","port":4400},{"address":"::1","family":"IPv6","port":4400}],"ui":[{"address":"127.0.0.1","family":"IPv4","port":4000},{"address":"::1","family":"IPv6","port":4000}],"logging":[{"address":"127.0.0.1","family":"IPv4","port":4500}],"auth":[{"address":"127.0.0.1","family":"IPv4","port":9099}],"firestore":[{"address":"127.0.0.1","family":"IPv4","port":8080}],"firestore.websocket":[{"address":"127.0.0.1","family":"IPv4","port":9150}],"functions":[{"address":"127.0.0.1","family":"IPv4","port":5001}],"eventarc":[{"address":"127.0.0.1","family":"IPv4","port":9299}],"tasks":[{"address":"127.0.0.1","family":"IPv4","port":9499}]},"metadata":{"message":"late-assigned ports for functions and eventarc emulators"}}
+[warn] !  functions: The following emulators are not running, calls to these services from the Functions emulator will affect production: apphosting, database, hosting, pubsub, storage, dataconnect {"metadata":{"emulator":{"name":"functions"},"message":"The following emulators are not running, calls to these services from the Functions emulator will affect production: \u001b[1mapphosting, database, hosting, pubsub, storage, dataconnect\u001b[22m"}}
+[debug] [2024-12-24T09:17:20.016Z] defaultcredentials: writing to file C:\Users\phani\AppData\Roaming\firebase\de-lit_club_rguktrkv.ac.in_application_default_credentials.json
+[debug] [2024-12-24T09:17:20.019Z] Setting GAC to C:\Users\phani\AppData\Roaming\firebase\de-lit_club_rguktrkv.ac.in_application_default_credentials.json {"metadata":{"emulator":{"name":"functions"},"message":"Setting GAC to C:\\Users\\phani\\AppData\\Roaming\\firebase\\de-lit_club_rguktrkv.ac.in_application_default_credentials.json"}}
+[debug] [2024-12-24T09:17:20.020Z] Checked if tokens are valid: true, expires at: 1735035426981
+[debug] [2024-12-24T09:17:20.020Z] Checked if tokens are valid: true, expires at: 1735035426981
+[debug] [2024-12-24T09:17:20.020Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/de-lit-web/adminSdkConfig [none]
+[debug] [2024-12-24T09:17:32.468Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/de-lit-web/adminSdkConfig 200
+[debug] [2024-12-24T09:17:32.468Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/de-lit-web/adminSdkConfig {"projectId":"de-lit-web","databaseURL":"https://de-lit-web-default-rtdb.firebaseio.com","storageBucket":"de-lit-web.firebasestorage.app"}
+[debug] [2024-12-24T09:17:32.499Z] Ignoring unsupported arg: auto_download {"metadata":{"emulator":{"name":"firestore"},"message":"Ignoring unsupported arg: auto_download"}}
+[debug] [2024-12-24T09:17:32.499Z] Ignoring unsupported arg: single_project_mode_error {"metadata":{"emulator":{"name":"firestore"},"message":"Ignoring unsupported arg: single_project_mode_error"}}
+[debug] [2024-12-24T09:17:32.499Z] Starting Firestore Emulator with command {"binary":"java","args":["-Dgoogle.cloud_firestore.debug_log_level=FINE","-Duser.language=en","-jar","C:\\Users\\phani\\.cache\\firebase\\emulators\\cloud-firestore-emulator-v1.19.8.jar","--host","127.0.0.1","--port",8080,"--websocket_port",9150,"--project_id","de-lit-web","--rules","C:\\Users\\phani\\Projects\\de-lit-backend\\firestore.rules","--single_project_mode",true,"--functions_emulator","127.0.0.1:5001"],"optionalArgs":["port","webchannel_port","host","rules","websocket_port","functions_emulator","seed_from_export","project_id","single_project_mode"],"joinArgs":false,"shell":false,"port":8080} {"metadata":{"emulator":{"name":"firestore"},"message":"Starting Firestore Emulator with command {\"binary\":\"java\",\"args\":[\"-Dgoogle.cloud_firestore.debug_log_level=FINE\",\"-Duser.language=en\",\"-jar\",\"C:\\\\Users\\\\phani\\\\.cache\\\\firebase\\\\emulators\\\\cloud-firestore-emulator-v1.19.8.jar\",\"--host\",\"127.0.0.1\",\"--port\",8080,\"--websocket_port\",9150,\"--project_id\",\"de-lit-web\",\"--rules\",\"C:\\\\Users\\\\phani\\\\Projects\\\\de-lit-backend\\\\firestore.rules\",\"--single_project_mode\",true,\"--functions_emulator\",\"127.0.0.1:5001\"],\"optionalArgs\":[\"port\",\"webchannel_port\",\"host\",\"rules\",\"websocket_port\",\"functions_emulator\",\"seed_from_export\",\"project_id\",\"single_project_mode\"],\"joinArgs\":false,\"shell\":false,\"port\":8080}"}}
+[info] i  firestore: Firestore Emulator logging to firestore-debug.log {"metadata":{"emulator":{"name":"firestore"},"message":"Firestore Emulator logging to \u001b[1mfirestore-debug.log\u001b[22m"}}
+[info] +  firestore: Firestore Emulator UI websocket is running on 9150. {"metadata":{"emulator":{"name":"firestore"},"message":"Firestore Emulator UI websocket is running on 9150."}}
+[debug] [2024-12-24T09:17:42.378Z] [Extensions] Connecting Extensions emulator, this is a noop.
+[info] i  functions: Watching "C:\Users\phani\Projects\de-lit-backend\functions" for Cloud Functions... {"metadata":{"emulator":{"name":"functions"},"message":"Watching \"C:\\Users\\phani\\Projects\\de-lit-backend\\functions\" for Cloud Functions..."}}
+[debug] [2024-12-24T09:17:42.388Z] Customer code is not Node
+[debug] [2024-12-24T09:17:42.388Z] Validating python source
+[debug] [2024-12-24T09:17:42.389Z] Building python source
+[debug] [2024-12-24T09:17:42.391Z] Could not find functions.yaml. Must use http discovery
+[debug] [2024-12-24T09:17:42.403Z] Running command with virtualenv: command="C:\Users\phani\Projects\de-lit-backend\functions\venv\Scripts\activate.bat", args=["","&&","python.exe","-c","\"import firebase_functions; import os; print(os.path.dirname(firebase_functions.__file__))\""]
+[debug] [2024-12-24T09:17:42.669Z] stdout: C:\Users\phani\Projects\de-lit-backend\functions\venv\Lib\site-packages\firebase_functions
+
+[debug] [2024-12-24T09:17:42.678Z] Running admin server with args: ["python.exe","\"C:\\Users\\phani\\Projects\\de-lit-backend\\functions\\venv\\Lib\\site-packages\\firebase_functions\\private\\serving.py\""] and env: {"GCLOUD_PROJECT":"de-lit-web","K_REVISION":"1","PORT":"80","GOOGLE_CLOUD_QUOTA_PROJECT":"de-lit-web","FUNCTIONS_EMULATOR":"true","TZ":"UTC","FIREBASE_DEBUG_MODE":"true","FIREBASE_DEBUG_FEATURES":"{\"skipTokenVerification\":true,\"enableCors\":true}","FIREBASE_EMULATOR_HUB":"127.0.0.1:4400","FIREBASE_AUTH_EMULATOR_HOST":"127.0.0.1:9099","FIRESTORE_EMULATOR_HOST":"127.0.0.1:8080","FIREBASE_FIRESTORE_EMULATOR_ADDRESS":"127.0.0.1:8080","CLOUD_EVENTARC_EMULATOR_HOST":"http://127.0.0.1:9299","CLOUD_TASKS_EMULATOR_HOST":"127.0.0.1:9499","FIREBASE_CONFIG":"{\"storageBucket\":\"de-lit-web.firebasestorage.app\",\"databaseURL\":\"https://de-lit-web-default-rtdb.firebaseio.com\",\"projectId\":\"de-lit-web\"}","GOOGLE_APPLICATION_CREDENTIALS":"C:\\Users\\phani\\AppData\\Roaming\\firebase\\de-lit_club_rguktrkv.ac.in_application_default_credentials.json","ADMIN_PORT":"8081"} in C:\Users\phani\Projects\de-lit-backend\functions
+[debug] [2024-12-24T09:17:42.678Z] Running command with virtualenv: command="C:\Users\phani\Projects\de-lit-backend\functions\venv\Scripts\activate.bat", args=["","&&","python.exe","\"C:\\Users\\phani\\Projects\\de-lit-backend\\functions\\venv\\Lib\\site-packages\\firebase_functions\\private\\serving.py\""]
+[info]  * Serving Flask app 'serving'
+ * Debug mode: off
+
+[error] WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
+ * Running on http://127.0.0.1:8081
+
+[error] Press CTRL+C to quit
+
+[error] 127.0.0.1 - - [24/Dec/2024 09:17:45] "GET /__/functions.yaml HTTP/1.1" 200 -
+
+[debug] [2024-12-24T09:17:45.450Z] Got response from /__/functions.yaml endpoints: {}
+params: []
+requiredAPIs: []
+specVersion: v1alpha1
+
+[error] 127.0.0.1 - - [24/Dec/2024 09:17:45] "GET /__/quitquitquit HTTP/1.1" 200 -
+
+[info] +  functions: Loaded functions definitions from source: . {"metadata":{"emulator":{"name":"functions"},"message":"Loaded functions definitions from source: ."}}
+[debug] [2024-12-24T09:17:45.495Z] Could not find VSCode notification endpoint: FetchError: request to http://localhost:40001/vscode/notify failed, reason: . If you are not running the Firebase Data Connect VSCode extension, this is expected and not an issue.
+[info] 
+┌─────────────────────────────────────────────────────────────┐
+│ ✔  All emulators ready! It is now safe to connect your app. │
+│ i  View Emulator UI at http://127.0.0.1:4000/               │
+└─────────────────────────────────────────────────────────────┘
+
+┌────────────────┬──────────────────────────────────┬──────────────────────────────────┐
+│ Emulator       │ Host:Port                        │ View in Emulator UI              │
+├────────────────┼──────────────────────────────────┼──────────────────────────────────┤
+│ Authentication │ 127.0.0.1:9099                   │ http://127.0.0.1:4000/auth       │
+├────────────────┼──────────────────────────────────┼──────────────────────────────────┤
+│ Functions      │ 127.0.0.1:5001                   │ http://127.0.0.1:4000/functions  │
+├────────────────┼──────────────────────────────────┼──────────────────────────────────┤
+│ Firestore      │ 127.0.0.1:8080                   │ http://127.0.0.1:4000/firestore  │
+├────────────────┼──────────────────────────────────┼──────────────────────────────────┤
+│ Hosting        │ Failed to initialize (see above) │                                  │
+├────────────────┼──────────────────────────────────┼──────────────────────────────────┤
+│ Extensions     │ 127.0.0.1:5001                   │ http://127.0.0.1:4000/extensions │
+└────────────────┴──────────────────────────────────┴──────────────────────────────────┘
+  Emulator Hub running at 127.0.0.1:4400
+  Other reserved ports: 4500, 9150
+┌─────────────────────────┬───────────────┬─────────────────────┐
+│ Extension Instance Name │ Extension Ref │ View in Emulator UI │
+└─────────────────────────┴───────────────┴─────────────────────┘
+Issues? Report them at https://github.com/firebase/firebase-tools/issues and attach the *-debug.log files.
+ 
+[debug] [2024-12-24T09:20:21.848Z] File C:\Users\phani\Projects\de-lit-backend\functions\main.py changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File C:\\Users\\phani\\Projects\\de-lit-backend\\functions\\main.py changed, reloading triggers"}}
+[debug] [2024-12-24T09:20:22.854Z] Customer code is not Node
+[debug] [2024-12-24T09:20:22.855Z] Validating python source
+[debug] [2024-12-24T09:20:22.855Z] Building python source
+[debug] [2024-12-24T09:20:22.856Z] Could not find functions.yaml. Must use http discovery
+[debug] [2024-12-24T09:20:22.871Z] Running command with virtualenv: command="C:\Users\phani\Projects\de-lit-backend\functions\venv\Scripts\activate.bat", args=["","&&","python.exe","-c","\"import firebase_functions; import os; print(os.path.dirname(firebase_functions.__file__))\""]
+[debug] [2024-12-24T09:20:23.052Z] stdout: C:\Users\phani\Projects\de-lit-backend\functions\venv\Lib\site-packages\firebase_functions
+
+[debug] [2024-12-24T09:20:23.063Z] Running admin server with args: ["python.exe","\"C:\\Users\\phani\\Projects\\de-lit-backend\\functions\\venv\\Lib\\site-packages\\firebase_functions\\private\\serving.py\""] and env: {"GCLOUD_PROJECT":"de-lit-web","K_REVISION":"1","PORT":"80","GOOGLE_CLOUD_QUOTA_PROJECT":"de-lit-web","FUNCTIONS_EMULATOR":"true","TZ":"UTC","FIREBASE_DEBUG_MODE":"true","FIREBASE_DEBUG_FEATURES":"{\"skipTokenVerification\":true,\"enableCors\":true}","FIREBASE_EMULATOR_HUB":"127.0.0.1:4400","FIREBASE_AUTH_EMULATOR_HOST":"127.0.0.1:9099","FIRESTORE_EMULATOR_HOST":"127.0.0.1:8080","FIREBASE_FIRESTORE_EMULATOR_ADDRESS":"127.0.0.1:8080","CLOUD_EVENTARC_EMULATOR_HOST":"http://127.0.0.1:9299","CLOUD_TASKS_EMULATOR_HOST":"127.0.0.1:9499","FIREBASE_CONFIG":"{\"storageBucket\":\"de-lit-web.firebasestorage.app\",\"databaseURL\":\"https://de-lit-web-default-rtdb.firebaseio.com\",\"projectId\":\"de-lit-web\"}","GOOGLE_APPLICATION_CREDENTIALS":"C:\\Users\\phani\\AppData\\Roaming\\firebase\\de-lit_club_rguktrkv.ac.in_application_default_credentials.json","ADMIN_PORT":"8081"} in C:\Users\phani\Projects\de-lit-backend\functions
+[debug] [2024-12-24T09:20:23.063Z] Running command with virtualenv: command="C:\Users\phani\Projects\de-lit-backend\functions\venv\Scripts\activate.bat", args=["","&&","python.exe","\"C:\\Users\\phani\\Projects\\de-lit-backend\\functions\\venv\\Lib\\site-packages\\firebase_functions\\private\\serving.py\""]
+[debug] [2024-12-24T09:20:24.222Z] File C:\Users\phani\Projects\de-lit-backend\functions\main.py changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File C:\\Users\\phani\\Projects\\de-lit-backend\\functions\\main.py changed, reloading triggers"}}
+[info]  * Serving Flask app 'serving'
+ * Debug mode: off
+
+[error] WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
+ * Running on http://127.0.0.1:8081
+
+[error] Press CTRL+C to quit
+
+[debug] [2024-12-24T09:20:25.064Z] File C:\Users\phani\Projects\de-lit-backend\functions\__pycache__\main.cpython-312.pyc changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File C:\\Users\\phani\\Projects\\de-lit-backend\\functions\\__pycache__\\main.cpython-312.pyc changed, reloading triggers"}}
+[error] 127.0.0.1 - - [24/Dec/2024 09:20:25] "GET /__/functions.yaml HTTP/1.1" 200 -
+
+[debug] [2024-12-24T09:20:25.085Z] Got response from /__/functions.yaml endpoints: {}
+params: []
+requiredAPIs: []
+specVersion: v1alpha1
+
+[error] 127.0.0.1 - - [24/Dec/2024 09:20:25] "GET /__/quitquitquit HTTP/1.1" 200 -
+
+[info] +  functions: Loaded functions definitions from source: . {"metadata":{"emulator":{"name":"functions"},"message":"Loaded functions definitions from source: ."}}
+[debug] [2024-12-24T09:20:25.732Z] File C:\Users\phani\Projects\de-lit-backend\functions\main.py changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File C:\\Users\\phani\\Projects\\de-lit-backend\\functions\\main.py changed, reloading triggers"}}
+[debug] [2024-12-24T09:20:26.745Z] Customer code is not Node
+[debug] [2024-12-24T09:20:26.746Z] Validating python source
+[debug] [2024-12-24T09:20:26.746Z] Building python source
+[debug] [2024-12-24T09:20:26.747Z] Could not find functions.yaml. Must use http discovery
+[debug] [2024-12-24T09:20:26.752Z] Running command with virtualenv: command="C:\Users\phani\Projects\de-lit-backend\functions\venv\Scripts\activate.bat", args=["","&&","python.exe","-c","\"import firebase_functions; import os; print(os.path.dirname(firebase_functions.__file__))\""]
+[debug] [2024-12-24T09:20:26.959Z] stdout: C:\Users\phani\Projects\de-lit-backend\functions\venv\Lib\site-packages\firebase_functions
+
+[debug] [2024-12-24T09:20:26.969Z] Running admin server with args: ["python.exe","\"C:\\Users\\phani\\Projects\\de-lit-backend\\functions\\venv\\Lib\\site-packages\\firebase_functions\\private\\serving.py\""] and env: {"GCLOUD_PROJECT":"de-lit-web","K_REVISION":"1","PORT":"80","GOOGLE_CLOUD_QUOTA_PROJECT":"de-lit-web","FUNCTIONS_EMULATOR":"true","TZ":"UTC","FIREBASE_DEBUG_MODE":"true","FIREBASE_DEBUG_FEATURES":"{\"skipTokenVerification\":true,\"enableCors\":true}","FIREBASE_EMULATOR_HUB":"127.0.0.1:4400","FIREBASE_AUTH_EMULATOR_HOST":"127.0.0.1:9099","FIRESTORE_EMULATOR_HOST":"127.0.0.1:8080","FIREBASE_FIRESTORE_EMULATOR_ADDRESS":"127.0.0.1:8080","CLOUD_EVENTARC_EMULATOR_HOST":"http://127.0.0.1:9299","CLOUD_TASKS_EMULATOR_HOST":"127.0.0.1:9499","FIREBASE_CONFIG":"{\"storageBucket\":\"de-lit-web.firebasestorage.app\",\"databaseURL\":\"https://de-lit-web-default-rtdb.firebaseio.com\",\"projectId\":\"de-lit-web\"}","GOOGLE_APPLICATION_CREDENTIALS":"C:\\Users\\phani\\AppData\\Roaming\\firebase\\de-lit_club_rguktrkv.ac.in_application_default_credentials.json","ADMIN_PORT":"8081"} in C:\Users\phani\Projects\de-lit-backend\functions
+[debug] [2024-12-24T09:20:26.969Z] Running command with virtualenv: command="C:\Users\phani\Projects\de-lit-backend\functions\venv\Scripts\activate.bat", args=["","&&","python.exe","\"C:\\Users\\phani\\Projects\\de-lit-backend\\functions\\venv\\Lib\\site-packages\\firebase_functions\\private\\serving.py\""]
+[info]  * Serving Flask app 'serving'
+ * Debug mode: off
+
+[error] WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
+ * Running on http://127.0.0.1:8081
+
+[error] Press CTRL+C to quit
+
+[debug] [2024-12-24T09:20:28.959Z] File C:\Users\phani\Projects\de-lit-backend\functions\__pycache__\main.cpython-312.pyc changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File C:\\Users\\phani\\Projects\\de-lit-backend\\functions\\__pycache__\\main.cpython-312.pyc changed, reloading triggers"}}
+[error] 127.0.0.1 - - [24/Dec/2024 09:20:28] "GET /__/functions.yaml HTTP/1.1" 200 -
+
+[debug] [2024-12-24T09:20:28.971Z] Got response from /__/functions.yaml endpoints: {}
+params: []
+requiredAPIs: []
+specVersion: v1alpha1
+
+[error] 127.0.0.1 - - [24/Dec/2024 09:20:28] "GET /__/quitquitquit HTTP/1.1" 200 -
+
+[info] +  functions: Loaded functions definitions from source: . {"metadata":{"emulator":{"name":"functions"},"message":"Loaded functions definitions from source: ."}}
+[debug] [2024-12-24T09:20:29.960Z] Customer code is not Node
+[debug] [2024-12-24T09:20:29.961Z] Validating python source
+[debug] [2024-12-24T09:20:29.961Z] Building python source
+[debug] [2024-12-24T09:20:29.961Z] Could not find functions.yaml. Must use http discovery
+[debug] [2024-12-24T09:20:29.965Z] Running command with virtualenv: command="C:\Users\phani\Projects\de-lit-backend\functions\venv\Scripts\activate.bat", args=["","&&","python.exe","-c","\"import firebase_functions; import os; print(os.path.dirname(firebase_functions.__file__))\""]
+[debug] [2024-12-24T09:20:30.114Z] stdout: C:\Users\phani\Projects\de-lit-backend\functions\venv\Lib\site-packages\firebase_functions
+
+[debug] [2024-12-24T09:20:30.124Z] Running admin server with args: ["python.exe","\"C:\\Users\\phani\\Projects\\de-lit-backend\\functions\\venv\\Lib\\site-packages\\firebase_functions\\private\\serving.py\""] and env: {"GCLOUD_PROJECT":"de-lit-web","K_REVISION":"1","PORT":"80","GOOGLE_CLOUD_QUOTA_PROJECT":"de-lit-web","FUNCTIONS_EMULATOR":"true","TZ":"UTC","FIREBASE_DEBUG_MODE":"true","FIREBASE_DEBUG_FEATURES":"{\"skipTokenVerification\":true,\"enableCors\":true}","FIREBASE_EMULATOR_HUB":"127.0.0.1:4400","FIREBASE_AUTH_EMULATOR_HOST":"127.0.0.1:9099","FIRESTORE_EMULATOR_HOST":"127.0.0.1:8080","FIREBASE_FIRESTORE_EMULATOR_ADDRESS":"127.0.0.1:8080","CLOUD_EVENTARC_EMULATOR_HOST":"http://127.0.0.1:9299","CLOUD_TASKS_EMULATOR_HOST":"127.0.0.1:9499","FIREBASE_CONFIG":"{\"storageBucket\":\"de-lit-web.firebasestorage.app\",\"databaseURL\":\"https://de-lit-web-default-rtdb.firebaseio.com\",\"projectId\":\"de-lit-web\"}","GOOGLE_APPLICATION_CREDENTIALS":"C:\\Users\\phani\\AppData\\Roaming\\firebase\\de-lit_club_rguktrkv.ac.in_application_default_credentials.json","ADMIN_PORT":"8081"} in C:\Users\phani\Projects\de-lit-backend\functions
+[debug] [2024-12-24T09:20:30.125Z] Running command with virtualenv: command="C:\Users\phani\Projects\de-lit-backend\functions\venv\Scripts\activate.bat", args=["","&&","python.exe","\"C:\\Users\\phani\\Projects\\de-lit-backend\\functions\\venv\\Lib\\site-packages\\firebase_functions\\private\\serving.py\""]
+[info]  * Serving Flask app 'serving'
+ * Debug mode: off
+
+[error] WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
+ * Running on http://127.0.0.1:8081
+
+[error] Press CTRL+C to quit
+
+[error] 127.0.0.1 - - [24/Dec/2024 09:20:31] "GET /__/functions.yaml HTTP/1.1" 200 -
+
+[debug] [2024-12-24T09:20:31.792Z] Got response from /__/functions.yaml endpoints: {}
+params: []
+requiredAPIs: []
+specVersion: v1alpha1
+
+[error] 127.0.0.1 - - [24/Dec/2024 09:20:31] "GET /__/quitquitquit HTTP/1.1" 200 -
+
+[info] +  functions: Loaded functions definitions from source: . {"metadata":{"emulator":{"name":"functions"},"message":"Loaded functions definitions from source: ."}}
+[debug] [2024-12-24T10:37:06.177Z] File C:\Users\phani\Projects\de-lit-backend\functions\main.py changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File C:\\Users\\phani\\Projects\\de-lit-backend\\functions\\main.py changed, reloading triggers"}}
+[debug] [2024-12-24T10:37:06.227Z] File C:\Users\phani\Projects\de-lit-backend\functions\main.py changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File C:\\Users\\phani\\Projects\\de-lit-backend\\functions\\main.py changed, reloading triggers"}}
+[debug] [2024-12-24T10:37:07.256Z] Customer code is not Node
+[debug] [2024-12-24T10:37:07.258Z] Validating python source
+[debug] [2024-12-24T10:37:07.259Z] Building python source
+[debug] [2024-12-24T10:37:07.273Z] Could not find functions.yaml. Must use http discovery
+[debug] [2024-12-24T10:37:07.295Z] Running command with virtualenv: command="C:\Users\phani\Projects\de-lit-backend\functions\venv\Scripts\activate.bat", args=["","&&","python.exe","-c","\"import firebase_functions; import os; print(os.path.dirname(firebase_functions.__file__))\""]
+[debug] [2024-12-24T10:37:07.502Z] stdout: C:\Users\phani\Projects\de-lit-backend\functions\venv\Lib\site-packages\firebase_functions
+
+[debug] [2024-12-24T10:37:07.515Z] Running admin server with args: ["python.exe","\"C:\\Users\\phani\\Projects\\de-lit-backend\\functions\\venv\\Lib\\site-packages\\firebase_functions\\private\\serving.py\""] and env: {"GCLOUD_PROJECT":"de-lit-web","K_REVISION":"1","PORT":"80","GOOGLE_CLOUD_QUOTA_PROJECT":"de-lit-web","FUNCTIONS_EMULATOR":"true","TZ":"UTC","FIREBASE_DEBUG_MODE":"true","FIREBASE_DEBUG_FEATURES":"{\"skipTokenVerification\":true,\"enableCors\":true}","FIREBASE_EMULATOR_HUB":"127.0.0.1:4400","FIREBASE_AUTH_EMULATOR_HOST":"127.0.0.1:9099","FIRESTORE_EMULATOR_HOST":"127.0.0.1:8080","FIREBASE_FIRESTORE_EMULATOR_ADDRESS":"127.0.0.1:8080","CLOUD_EVENTARC_EMULATOR_HOST":"http://127.0.0.1:9299","CLOUD_TASKS_EMULATOR_HOST":"127.0.0.1:9499","FIREBASE_CONFIG":"{\"storageBucket\":\"de-lit-web.firebasestorage.app\",\"databaseURL\":\"https://de-lit-web-default-rtdb.firebaseio.com\",\"projectId\":\"de-lit-web\"}","GOOGLE_APPLICATION_CREDENTIALS":"C:\\Users\\phani\\AppData\\Roaming\\firebase\\de-lit_club_rguktrkv.ac.in_application_default_credentials.json","ADMIN_PORT":"8081"} in C:\Users\phani\Projects\de-lit-backend\functions
+[debug] [2024-12-24T10:37:07.515Z] Running command with virtualenv: command="C:\Users\phani\Projects\de-lit-backend\functions\venv\Scripts\activate.bat", args=["","&&","python.exe","\"C:\\Users\\phani\\Projects\\de-lit-backend\\functions\\venv\\Lib\\site-packages\\firebase_functions\\private\\serving.py\""]
+[info]  * Serving Flask app 'serving'
+ * Debug mode: off
+
+[error] WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
+ * Running on http://127.0.0.1:8081
+Press CTRL+C to quit
+
+[error] 127.0.0.1 - - [24/Dec/2024 10:37:09] "GET /__/functions.yaml HTTP/1.1" 200 -
+
+[debug] [2024-12-24T10:37:09.741Z] Got response from /__/functions.yaml endpoints:
+  on_request_example:
+    availableMemoryMb: null
+    concurrency: null
+    entryPoint: on_request_example
+    httpsTrigger: {}
+    ingressSettings: null
+    labels: {}
+    maxInstances: null
+    minInstances: null
+    platform: gcfv2
+    secretEnvironmentVariables: []
+    serviceAccountEmail: null
+    timeoutSeconds: null
+params: []
+requiredAPIs: []
+specVersion: v1alpha1
+
+[error] 127.0.0.1 - - [24/Dec/2024 10:37:09] "GET /__/quitquitquit HTTP/1.1" 200 -
+
+[info] +  functions: Loaded functions definitions from source: on_request_example. {"metadata":{"emulator":{"name":"functions"},"message":"Loaded functions definitions from source: on_request_example."}}
+[info] +  functions[us-central1-on_request_example]: http function initialized (http://127.0.0.1:5001/de-lit-web/us-central1/on_request_example). {"metadata":{"emulator":{"name":"functions"},"message":"\u001b[1mhttp\u001b[22m function initialized (http://127.0.0.1:5001/de-lit-web/us-central1/on_request_example)."}}
+[debug] [2024-12-24T10:37:32.617Z] File C:\Users\phani\Projects\de-lit-backend\functions\main.py changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File C:\\Users\\phani\\Projects\\de-lit-backend\\functions\\main.py changed, reloading triggers"}}
+[debug] [2024-12-24T10:37:33.619Z] Customer code is not Node
+[debug] [2024-12-24T10:37:33.619Z] Validating python source
+[debug] [2024-12-24T10:37:33.619Z] Building python source
+[debug] [2024-12-24T10:37:33.620Z] Could not find functions.yaml. Must use http discovery
+[debug] [2024-12-24T10:37:33.624Z] Running command with virtualenv: command="C:\Users\phani\Projects\de-lit-backend\functions\venv\Scripts\activate.bat", args=["","&&","python.exe","-c","\"import firebase_functions; import os; print(os.path.dirname(firebase_functions.__file__))\""]
+[debug] [2024-12-24T10:37:33.805Z] stdout: C:\Users\phani\Projects\de-lit-backend\functions\venv\Lib\site-packages\firebase_functions
+
+[debug] [2024-12-24T10:37:33.816Z] Running admin server with args: ["python.exe","\"C:\\Users\\phani\\Projects\\de-lit-backend\\functions\\venv\\Lib\\site-packages\\firebase_functions\\private\\serving.py\""] and env: {"GCLOUD_PROJECT":"de-lit-web","K_REVISION":"1","PORT":"80","GOOGLE_CLOUD_QUOTA_PROJECT":"de-lit-web","FUNCTIONS_EMULATOR":"true","TZ":"UTC","FIREBASE_DEBUG_MODE":"true","FIREBASE_DEBUG_FEATURES":"{\"skipTokenVerification\":true,\"enableCors\":true}","FIREBASE_EMULATOR_HUB":"127.0.0.1:4400","FIREBASE_AUTH_EMULATOR_HOST":"127.0.0.1:9099","FIRESTORE_EMULATOR_HOST":"127.0.0.1:8080","FIREBASE_FIRESTORE_EMULATOR_ADDRESS":"127.0.0.1:8080","CLOUD_EVENTARC_EMULATOR_HOST":"http://127.0.0.1:9299","CLOUD_TASKS_EMULATOR_HOST":"127.0.0.1:9499","FIREBASE_CONFIG":"{\"storageBucket\":\"de-lit-web.firebasestorage.app\",\"databaseURL\":\"https://de-lit-web-default-rtdb.firebaseio.com\",\"projectId\":\"de-lit-web\"}","GOOGLE_APPLICATION_CREDENTIALS":"C:\\Users\\phani\\AppData\\Roaming\\firebase\\de-lit_club_rguktrkv.ac.in_application_default_credentials.json","ADMIN_PORT":"8081"} in C:\Users\phani\Projects\de-lit-backend\functions
+[debug] [2024-12-24T10:37:33.816Z] Running command with virtualenv: command="C:\Users\phani\Projects\de-lit-backend\functions\venv\Scripts\activate.bat", args=["","&&","python.exe","\"C:\\Users\\phani\\Projects\\de-lit-backend\\functions\\venv\\Lib\\site-packages\\firebase_functions\\private\\serving.py\""]
+[info]  * Serving Flask app 'serving'
+ * Debug mode: off
+
+[error] WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
+ * Running on http://127.0.0.1:8081
+
+[error] Press CTRL+C to quit
+
+[debug] [2024-12-24T10:37:35.877Z] File C:\Users\phani\Projects\de-lit-backend\functions\__pycache__\main.cpython-312.pyc changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File C:\\Users\\phani\\Projects\\de-lit-backend\\functions\\__pycache__\\main.cpython-312.pyc changed, reloading triggers"}}
+[error] 127.0.0.1 - - [24/Dec/2024 10:37:35] "GET /__/functions.yaml HTTP/1.1" 200 -
+
+[debug] [2024-12-24T10:37:35.895Z] Got response from /__/functions.yaml endpoints:
+  on_request_example:
+    availableMemoryMb: null
+    concurrency: null
+    entryPoint: on_request_example
+    httpsTrigger: {}
+    ingressSettings: null
+    labels: {}
+    maxInstances: null
+    minInstances: null
+    platform: gcfv2
+    secretEnvironmentVariables: []
+    serviceAccountEmail: null
+    timeoutSeconds: null
+params: []
+requiredAPIs: []
+specVersion: v1alpha1
+
+[error] 127.0.0.1 - - [24/Dec/2024 10:37:35] "GET /__/quitquitquit HTTP/1.1" 200 -
+
+[info] +  functions: Loaded functions definitions from source: on_request_example. {"metadata":{"emulator":{"name":"functions"},"message":"Loaded functions definitions from source: on_request_example."}}
+[debug] [2024-12-24T10:37:36.882Z] Customer code is not Node
+[debug] [2024-12-24T10:37:36.882Z] Validating python source
+[debug] [2024-12-24T10:37:36.883Z] Building python source
+[debug] [2024-12-24T10:37:36.884Z] Could not find functions.yaml. Must use http discovery
+[debug] [2024-12-24T10:37:36.889Z] Running command with virtualenv: command="C:\Users\phani\Projects\de-lit-backend\functions\venv\Scripts\activate.bat", args=["","&&","python.exe","-c","\"import firebase_functions; import os; print(os.path.dirname(firebase_functions.__file__))\""]
+[debug] [2024-12-24T10:37:37.046Z] stdout: C:\Users\phani\Projects\de-lit-backend\functions\venv\Lib\site-packages\firebase_functions
+
+[debug] [2024-12-24T10:37:37.056Z] Running admin server with args: ["python.exe","\"C:\\Users\\phani\\Projects\\de-lit-backend\\functions\\venv\\Lib\\site-packages\\firebase_functions\\private\\serving.py\""] and env: {"GCLOUD_PROJECT":"de-lit-web","K_REVISION":"1","PORT":"80","GOOGLE_CLOUD_QUOTA_PROJECT":"de-lit-web","FUNCTIONS_EMULATOR":"true","TZ":"UTC","FIREBASE_DEBUG_MODE":"true","FIREBASE_DEBUG_FEATURES":"{\"skipTokenVerification\":true,\"enableCors\":true}","FIREBASE_EMULATOR_HUB":"127.0.0.1:4400","FIREBASE_AUTH_EMULATOR_HOST":"127.0.0.1:9099","FIRESTORE_EMULATOR_HOST":"127.0.0.1:8080","FIREBASE_FIRESTORE_EMULATOR_ADDRESS":"127.0.0.1:8080","CLOUD_EVENTARC_EMULATOR_HOST":"http://127.0.0.1:9299","CLOUD_TASKS_EMULATOR_HOST":"127.0.0.1:9499","FIREBASE_CONFIG":"{\"storageBucket\":\"de-lit-web.firebasestorage.app\",\"databaseURL\":\"https://de-lit-web-default-rtdb.firebaseio.com\",\"projectId\":\"de-lit-web\"}","GOOGLE_APPLICATION_CREDENTIALS":"C:\\Users\\phani\\AppData\\Roaming\\firebase\\de-lit_club_rguktrkv.ac.in_application_default_credentials.json","ADMIN_PORT":"8081"} in C:\Users\phani\Projects\de-lit-backend\functions
+[debug] [2024-12-24T10:37:37.056Z] Running command with virtualenv: command="C:\Users\phani\Projects\de-lit-backend\functions\venv\Scripts\activate.bat", args=["","&&","python.exe","\"C:\\Users\\phani\\Projects\\de-lit-backend\\functions\\venv\\Lib\\site-packages\\firebase_functions\\private\\serving.py\""]
+[info]  * Serving Flask app 'serving'
+ * Debug mode: off
+
+[error] WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
+ * Running on http://127.0.0.1:8081
+
+[error] Press CTRL+C to quit
+
+[error] 127.0.0.1 - - [24/Dec/2024 10:37:38] "GET /__/functions.yaml HTTP/1.1" 200 -
+
+[debug] [2024-12-24T10:37:38.745Z] Got response from /__/functions.yaml endpoints:
+  on_request_example:
+    availableMemoryMb: null
+    concurrency: null
+    entryPoint: on_request_example
+    httpsTrigger: {}
+    ingressSettings: null
+    labels: {}
+    maxInstances: null
+    minInstances: null
+    platform: gcfv2
+    secretEnvironmentVariables: []
+    serviceAccountEmail: null
+    timeoutSeconds: null
+params: []
+requiredAPIs: []
+specVersion: v1alpha1
+
+[error] 127.0.0.1 - - [24/Dec/2024 10:37:38] "GET /__/quitquitquit HTTP/1.1" 200 -
+
+[info] +  functions: Loaded functions definitions from source: on_request_example. {"metadata":{"emulator":{"name":"functions"},"message":"Loaded functions definitions from source: on_request_example."}}
+[debug] [2024-12-24T10:45:04.957Z] [work-queue] {"queuedWork":["/de-lit-web/us-central1/on_request_example-2024-12-24T10:45:04.957Z"],"queueLength":1,"runningWork":[],"workRunningCount":0}
+[debug] [2024-12-24T10:45:04.958Z] [work-queue] {"queuedWork":[],"queueLength":0,"runningWork":["/de-lit-web/us-central1/on_request_example-2024-12-24T10:45:04.957Z"],"workRunningCount":1}
+[debug] [2024-12-24T10:45:04.958Z] Accepted request GET /de-lit-web/us-central1/on_request_example --> us-central1-on_request_example
+[debug] [2024-12-24T10:45:04.974Z] [functions] Runtime ready! Sending request! {"metadata":{"emulator":{"name":"functions"},"message":"[functions] Runtime ready! Sending request!"}}
+[debug] [2024-12-24T10:45:04.975Z] [functions] Got req.url=/de-lit-web/us-central1/on_request_example, mapping to path=/ {"metadata":{"emulator":{"name":"functions"},"message":"[functions] Got req.url=/de-lit-web/us-central1/on_request_example, mapping to path=/"}}
+[debug] [2024-12-24T10:45:04.987Z] Running command with virtualenv: command="C:\Users\phani\Projects\de-lit-backend\functions\venv\Scripts\activate.bat", args=["","&&","functions-framework"]
+[debug] [2024-12-24T10:45:05.001Z] [worker-pool] addWorker(us-central1-on_request_example) {"metadata":{"emulator":{"name":"functions"},"message":"[worker-pool] addWorker(us-central1-on_request_example)"}}
+[debug] [2024-12-24T10:45:05.003Z] [worker-pool] Adding worker with key us-central1-on_request_example, total=1 {"metadata":{"emulator":{"name":"functions"},"message":"[worker-pool] Adding worker with key us-central1-on_request_example, total=1"}}
+[info] >   * Serving Flask app 'on_request_example' {"user":" * Serving Flask app 'on_request_example'\r","metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-on_request_example"},"extension":{},"message":"\u001b[90m> \u001b[39m  * Serving Flask app 'on_request_example'\r"}}
+[info] >   * Debug mode: off {"user":" * Debug mode: off\r","metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-on_request_example"},"extension":{},"message":"\u001b[90m> \u001b[39m  * Debug mode: off\r"}}
+[info] >  WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead. {"user":"WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.\r","metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-on_request_example"},"extension":{},"message":"\u001b[90m> \u001b[39m WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.\r"}}
+[info] >   * Running on http://127.0.0.1:8999 {"user":" * Running on http://127.0.0.1:8999\r","metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-on_request_example"},"extension":{},"message":"\u001b[90m> \u001b[39m  * Running on http://127.0.0.1:8999\r"}}
+[info] >  Press CTRL+C to quit {"user":"Press CTRL+C to quit\r","metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-on_request_example"},"extension":{},"message":"\u001b[90m> \u001b[39m Press CTRL+C to quit\r"}}
+[info] >  127.0.0.1 - - [24/Dec/2024 10:45:06] "GET /__/health HTTP/1.1" 200 - {"user":"127.0.0.1 - - [24/Dec/2024 10:45:06] \"GET /__/health HTTP/1.1\" 200 -\r","metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-on_request_example"},"extension":{},"message":"\u001b[90m> \u001b[39m 127.0.0.1 - - [24/Dec/2024 10:45:06] \"GET /__/health HTTP/1.1\" 200 -\r"}}
+[debug] [2024-12-24T10:45:06.875Z] [worker-us-central1-on_request_example-1d87e57a-192b-4358-b667-01543ea041bc]: IDLE {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-on_request_example"},"extension":{},"message":"[worker-us-central1-on_request_example-1d87e57a-192b-4358-b667-01543ea041bc]: IDLE"}}
+[debug] [2024-12-24T10:45:06.876Z] [worker-pool] submitRequest(triggerId=us-central1-on_request_example) {"metadata":{"emulator":{"name":"functions"},"message":"[worker-pool] submitRequest(triggerId=us-central1-on_request_example)"}}
+[info] i  functions: Beginning execution of "us-central1-on_request_example" {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-on_request_example"},"extension":{},"message":"Beginning execution of \"us-central1-on_request_example\""}}
+[debug] [2024-12-24T10:45:06.877Z] [worker-us-central1-on_request_example-1d87e57a-192b-4358-b667-01543ea041bc]: BUSY {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-on_request_example"},"extension":{},"message":"[worker-us-central1-on_request_example-1d87e57a-192b-4358-b667-01543ea041bc]: BUSY"}}
+[info] >  127.0.0.1 - - [24/Dec/2024 10:45:06] "GET / HTTP/1.1" 200 - {"user":"127.0.0.1 - - [24/Dec/2024 10:45:06] \"GET / HTTP/1.1\" 200 -\r","metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-on_request_example"},"extension":{},"message":"\u001b[90m> \u001b[39m 127.0.0.1 - - [24/Dec/2024 10:45:06] \"GET / HTTP/1.1\" 200 -\r"}}
+[debug] [2024-12-24T10:45:06.882Z] Finishing up request with event=pause {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-on_request_example"},"extension":{},"message":"Finishing up request with event=pause"}}
+[info] i  functions: Finished "us-central1-on_request_example" in 6.004ms {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-on_request_example"},"extension":{},"message":"Finished \"us-central1-on_request_example\" in 6.004ms"}}
+[debug] [2024-12-24T10:45:06.884Z] [worker-us-central1-on_request_example-1d87e57a-192b-4358-b667-01543ea041bc]: IDLE {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-on_request_example"},"extension":{},"message":"[worker-us-central1-on_request_example-1d87e57a-192b-4358-b667-01543ea041bc]: IDLE"}}
+[debug] [2024-12-24T10:45:06.884Z] Finishing up request with event=finish {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-on_request_example"},"extension":{},"message":"Finishing up request with event=finish"}}
+[debug] [2024-12-24T10:45:06.884Z] Finishing up request with event=close {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-on_request_example"},"extension":{},"message":"Finishing up request with event=close"}}
+[debug] [2024-12-24T10:45:06.885Z] [work-queue] {"queuedWork":[],"queueLength":0,"runningWork":[],"workRunningCount":0}
+[debug] [2024-12-24T10:45:07.026Z] Functions emulator received unknown request at path /favicon.ico
