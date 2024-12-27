@@ -1,10 +1,7 @@
-<<<<<<< HEAD
 firebase-admin==6.6.0
 firebase-functions
 fastapi
 aiohttp
 python-multipart
 uvicorn
-=======
-firebase_functions~=0.1.0
->>>>>>> b27a1bf930675137b0f4dcecd7449401879204d8
+mangum

@@ -3,8 +3,8 @@ from google.cloud import firestore
 from typing import TypeVar, Generic, Optional, List, Dict
 from pydantic import BaseModel
 from datetime import datetime
-from github_utilities import upload_to_github, delete_file_from_github
-from utils import REPO_OWNER, REPO_NAME, FOLDER_PATH, BRANCH
+from Utilities.git_hub_utilities import upload_to_github, delete_file_from_github
+from Utilities.utils import REPO_OWNER, REPO_NAME, FOLDER_PATH, BRANCH
 
 T = TypeVar('T', bound=BaseModel)
 
@@ -13,7 +13,7 @@ class CrudRepository(Generic[T]):
         self.db = firestore.Client()
         self.collection = self.db.collection(collection_name)
 
-    async def create(self, data: T) -> T:
+    def create(self, data: T) -> T:
         try:
             document = data.model_dump(exclude_unset=True) if hasattr(data, 'model_dump') else data
             doc_ref = self.collection.document()
@@ -25,7 +25,7 @@ class CrudRepository(Generic[T]):
             print(f"Error creating document: {error}")
             raise HTTPException(status_code=400, detail=f"Failed to create the document: {str(error)}") from error
 
-    async def delete(self, id: str) -> Optional[T]:
+    def delete(self, id: str) -> Optional[T]:
         doc_ref = self.collection.document(id)
         if not doc_ref.get().exists:
             raise HTTPException(status_code=404, detail="Document not found")
@@ -38,15 +38,27 @@ class CrudRepository(Generic[T]):
             raise HTTPException(status_code=404, detail="Document not found")
         return doc.to_dict()
 
-    async def find_by(self, query: Dict) -> Optional[T]:
-        docs = self.collection.where(list(query.keys())[0], '==', list(query.values())[0]).stream()
-        return [doc.to_dict() for doc in docs]
+    def find_by(self, query: Dict) -> Optional[T]:
+        if len(query) == 1:
+            # Using the first key-value pair for the query
+            field, value = list(query.items())[0]
+            docs = self.collection.where(field, "==", value).stream()
+
+            # Return the first matching document as a dictionary, if any
+            for doc in docs:
+                return doc.to_dict()  # Return the first document found
+        else:
+            # Handle more complex queries if needed (optional)
+            raise NotImplementedError("Multiple conditions query is not supported yet.")
+        
+        # If no document is found
+        return None
 
     async def get_all(self) -> List[T]:
         docs = self.collection.stream()
         return [doc.to_dict() for doc in docs]
 
-    async def update(self, id: str, data: T) -> Optional[T]:
+    def update(self, id: str, data: T) -> Optional[T]:
         doc_ref = self.collection.document(id)
         if not doc_ref.get().exists:
             raise HTTPException(status_code=404, detail="Document not found")
@@ -75,8 +87,8 @@ class CrudRepository(Generic[T]):
 
             return file_url
 
-    async def delete_image(self, image_url: str):
-        response = await delete_file_from_github(image_url)
+    def delete_link(self, image_url: str):
+        response = delete_file_from_github(image_url)
         if response.status_code != 200:
             raise HTTPException(
                 status_code=409,
