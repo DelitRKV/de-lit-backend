@@ -6,7 +6,7 @@ from functools import wraps
 GITHUB_TOKEN = ""
 REPO_OWNER = "Harshad712"
 REPO_NAME = "RKV-SPORTS-TEST"
-FOLDER_PATH = "testing"
+FOLDER_PATH = "testing_delit"
 BRANCH = "main"
 
 

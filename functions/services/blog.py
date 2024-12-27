@@ -46,12 +46,12 @@ def update_blog(request):
             return {"error": "Missing required field: title"}, 400
 
         # Remove blog_name from the fields to update (so it's not updated itself)
-        fields_to_update = {key: value for key, value in data.items() if key != "title"}
+        fields_to_update = {key: value for key, value in data.items()}
 
         if not fields_to_update:
             return {"error": "No fields to update provided"}, 400
-        blog = crud_repo.find_by({"title": title})
-        id = blog.get("id")
+       
+        id = data.get("id")
 
         # Update the blog using the CRUD repository
         result = crud_repo.update(id, fields_to_update)
@@ -97,3 +97,46 @@ def delete_blog(request):
 
     except Exception as e:
         return {"error": f"Internal Server Error: {str(e)}"}, 500
+    
+@https_fn.on_request()
+def get_all_blogs(request):
+    try:
+        # Fetch all blogs using the CRUD repository
+        blogs = crud_repo.get_all()  # Assuming crud_repo.find_all() returns all documents in the collection
+
+        if not blogs:
+            return {"message": "No blogs found"}, 404
+
+        return {"message": "Blogs retrieved successfully", "blogs": blogs}, 200
+
+    except Exception as e:
+        return {"error": f"Internal Server Error: {str(e)}"}, 500
+
+
+@https_fn.on_request()
+def get_blog_by_id(request):
+    try:
+        # Validate Content-Type
+        if request.headers.get("Content-Type") != "application/json":
+            return {"error": "Unsupported Media Type"}, 415
+
+        # Parse the request JSON
+        data = request.json
+        if not data:
+            return {"error": "No data provided"}, 400
+
+        # Extract the blog title from the request
+        id = data.get("id")
+        if not id:
+            return {"error": "Missing required field: title"}, 400
+
+        # Fetch the blog by title using the CRUD repository
+        blog = crud_repo.find_by({"id": id})
+        if not blog:
+            return {"error": f"Blog with id '{id}' not found"}, 404
+
+        return {"message": "Blog retrieved successfully", "blog": blog}, 200
+
+    except Exception as e:
+        return {"error": f"Internal Server Error: {str(e)}"}, 500
+

@@ -5,6 +5,7 @@ from pydantic import BaseModel
 from datetime import datetime
 from Utilities.git_hub_utilities import upload_to_github, delete_file_from_github
 from Utilities.utils import REPO_OWNER, REPO_NAME, FOLDER_PATH, BRANCH
+from flask import request
 
 T = TypeVar('T', bound=BaseModel)
 
@@ -32,7 +33,7 @@ class CrudRepository(Generic[T]):
         doc_ref.delete()
         return {"message": "Document deleted successfully"}
 
-    async def get(self, id: str) -> Optional[T]:
+    def get(self, id: str) -> Optional[T]:
         doc = self.collection.document(id).get()
         if not doc.exists:
             raise HTTPException(status_code=404, detail="Document not found")
@@ -54,7 +55,7 @@ class CrudRepository(Generic[T]):
         # If no document is found
         return None
 
-    async def get_all(self) -> List[T]:
+    def get_all(self) -> List[T]:
         docs = self.collection.stream()
         return [doc.to_dict() for doc in docs]
 
@@ -66,19 +67,19 @@ class CrudRepository(Generic[T]):
         doc_ref.update(document)
         return {"message": "Document updated successfully"}
 
-    async def upload_image(self, file: UploadFile = None):
+    def upload_image(self, file:UploadFile):
         if file:
-            file_content = await file.read()
+            file_content =  file.stream.read()
             image_size = len(file_content)
 
             max_length = 10 * 1024 * 1024  # 10 MB limit
             if image_size > max_length:
                 raise HTTPException(status_code=413, detail="File size exceeds the limit of 10 MB.")
 
-            await file.seek(0)
-            file_content = await file.read()
+            file.stream.seek(0)
             
-            response = await upload_to_github(file_content, file.filename)
+            
+            response =upload_to_github(file_content, file.filename)
 
             if response.status_code == 201:
                 file_url = f"https://raw.githubusercontent.com/{REPO_OWNER}/{REPO_NAME}/{BRANCH}/{FOLDER_PATH}/{file.filename}"

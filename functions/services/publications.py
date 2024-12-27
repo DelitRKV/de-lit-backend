@@ -1,31 +1,70 @@
 from firebase_functions import https_fn
 from Utilities.crud_repo import CrudRepository
 
+
 crud_repo = CrudRepository(collection_name="Publications")
 
 @https_fn.on_request()
 def create_publication(request):
     try:
         # Validate Content-Type
-        if request.headers.get("Content-Type") != "application/json":
+        content_type = request.headers.get("Content-Type", "")
+        if "multipart/form-data" not in content_type:
             return {"error": "Unsupported Media Type"}, 415
 
-        # Parse the request JSON
-        data = request.json
-        if not data:
-            return {"error": "No data provided"}, 400
-        
-        publication_name = data.get("publication_name")
-        publication = crud_repo.find_by({"publication_name": publication_name})
-        if publication:
-            return {"error":"publication already exists"},400
+        # Extract files and form data
+        cover_image = request.files.get("cover_image")
+        publication_file = request.files.get("publication_file")
+        other_fields = {key: request.form.get(key) for key in request.form}
 
+        if  not publication_file or not other_fields.get("publication_name"):
+            return {"error": " publication_file, and publication_name are required"}, 400
+
+        publication_name = other_fields["publication_name"]
+        
        
-        # Create the publication using the CRUD repository
-        result = crud_repo.create(data)  # Assuming crud_repo.create is synchronous
-        return {"message": "Publication created successfully", "result": result}, 201
+        
+
+        # Upload files to GitHub and get the links
+       
+        publication_file_link = crud_repo.upload_image(publication_file)
+
+        if  not publication_file_link:
+            return {"error": "Failed to upload files to GitHub"}, 500
+
+        # Prepare the data for Firestore
+        if cover_image:
+            cover_image_link = crud_repo.upload_image(cover_image)
+            firestore_data = {
+            "publication_name": publication_name,
+            "cover_image_link": cover_image_link,
+            "publication_file_link": publication_file_link,
+             }
+            firestore_data.update(other_fields)
+            
+        else:
+            firestore_data = {
+            "publication_name": publication_name,
+            
+            "publication_file_link": publication_file_link,
+             }
+            firestore_data.update(other_fields)
+            
+            
+        # Include all other text fields
+
+        # Create the publication in Firestore
+        result = crud_repo.create(firestore_data)
+
+        return {
+            "message": "Publication created successfully",
+            "publication_file_link": publication_file_link,
+            "firestore_result": result,
+        }, 201
 
     except Exception as e:
+        # Log the error for debugging
+        print(f"Error occurred: {e}")
         return {"error": f"Internal Server Error: {str(e)}"}, 500
     
 @https_fn.on_request()
@@ -46,12 +85,14 @@ def update_publication(request):
             return {"error": "Missing required field: publication_name"}, 400
 
         # Remove publication_name from the fields to update (so it's not updated itself)
-        fields_to_update = {key: value for key, value in data.items() if key != "publication_name"}
+        fields_to_update = {key: value for key, value in data.items() }
 
         if not fields_to_update:
             return {"error": "No fields to update provided"}, 400
-        publication = crud_repo.find_by({"publication_name": publication_name})
-        id = publication.get("id")
+       
+        id = data.get("id")
+       
+            
 
         # Update the publication using the CRUD repository
         result = crud_repo.update(id, fields_to_update)
@@ -62,7 +103,6 @@ def update_publication(request):
 
     except Exception as e:
         return {"error": f"Internal Server Error: {str(e)}"}, 500
-
 @https_fn.on_request()
 def delete_publication(request):
     try:
@@ -75,25 +115,78 @@ def delete_publication(request):
         if not data:
             return {"error": "No data provided"}, 400
 
-        # Extract the publication_name and check if it's provided
-        publication_name = data.get("publication_name")
-        if not publication_name:
-            return {"error": "Missing required field: publication_name"}, 400
-
-        # Find the publication by publication_name
-        publication = crud_repo.find_by({"publication_name": publication_name})
-        if not publication:
-            return {"error": f"Publication with name '{publication_name}' not found"}, 404
-
         # Extract the ID of the publication to delete
-        publication_id = publication.get("id")
+        publication_id = data.get("id")
+        if not publication_id:
+            return {"error": "Publication ID is required"}, 400
 
-        # Delete the publication using the CRUD repository
-        result = crud_repo.delete(publication_id)
-        if not result:
+        # Fetch the publication
+        publication = crud_repo.find_by({"id": publication_id})
+        if not publication:
+            return {"error": "Publication not found"}, 404
+
+        # Delete associated links if they exist
+        cover_image_link = publication.get("cover_image_link")
+        publication_link = publication.get("publication_link")
+
+        if cover_image_link:
+            if not crud_repo.delete_link(cover_image_link):
+                return {"error": "Failed to delete the cover image from GitHub"}, 500
+
+        if publication_link:
+            if not crud_repo.delete_link(publication_link):
+                return {"error": "Failed to delete the publication file from GitHub"}, 500
+
+        # Delete the publication record
+        if not crud_repo.delete(publication_id):
             return {"error": "Failed to delete publication"}, 500
 
         return {"message": "Publication deleted successfully"}, 200
 
     except Exception as e:
         return {"error": f"Internal Server Error: {str(e)}"}, 500
+
+ 
+@https_fn.on_request()
+def get_all_publications(request):
+    try:
+        # Fetch all publications using the CRUD repository
+        publications = crud_repo.get_all()  # Assuming crud_repo.find_all() returns all documents in the collection
+
+        if not publications:
+            return {"message": "No publications found"}, 404
+
+        return {"message": "publications retrieved successfully", "publications": publications}, 200
+
+    except Exception as e:
+        return {"error": f"Internal Server Error: {str(e)}"}, 500
+
+
+@https_fn.on_request()
+def get_publication_by_id(request):
+    try:
+        # Validate Content-Type
+        if request.headers.get("Content-Type") != "application/json":
+            return {"error": "Unsupported Media Type"}, 415
+
+        # Parse the request JSON
+        data = request.json
+        if not data:
+            return {"error": "No data provided"}, 400
+
+        # Extract the publication publication_name from the request
+        publication_id = data.get("id")
+        if not publication_id:
+            return {"error": "Missing required field: id"}, 400
+
+        # Fetch the publication by publication_name using the CRUD repository
+        publication = crud_repo.find_by({"id": id})
+        if not publication:
+            return {"error": f"publication with publication_id '{publication_id}' not found"}, 404
+
+        return {"message": "publication retrieved successfully", "publication": publication}, 200
+
+    except Exception as e:
+        return {"error": f"Internal Server Error: {str(e)}"}, 500
+
+
