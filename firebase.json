@@ -9,17 +9,10 @@
     "ui": {
       "enabled": true
     },
-    "singleProjectMode": true,
-    "hosting": {
-      "port": 5000
-    },
-    "auth": {
-      "port": 9099
-    }
+    "singleProjectMode": true
   },
   "firestore": {
-    "rules": "firestore.rules",
-    "indexes": "firestore.indexes.json"
+    "rules": "firestore.rules"
   },
   "functions": [
     {

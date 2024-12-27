@@ -1,1 +1,7 @@
-firebase_functions~=0.1.0
+firebase-admin==6.6.0
+firebase-functions
+fastapi
+aiohttp
+python-multipart
+uvicorn
+mangum
