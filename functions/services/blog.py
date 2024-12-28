@@ -1,11 +1,13 @@
 from firebase_functions import https_fn
 from Utilities.crud_repo import CrudRepository
+from Utilities.utils import handle_exception
 
 crud_repo = CrudRepository(collection_name="Blogs")
 
+@handle_exception
 @https_fn.on_request()
 def create_blog(request):
-    try:
+    
         # Validate Content-Type
         if request.headers.get("Content-Type") != "application/json":
             return {"error": "Unsupported Media Type"}, 415
@@ -25,12 +27,11 @@ def create_blog(request):
         result = crud_repo.create(data)  # Assuming crud_repo.create is synchronous
         return {"message": "blog created successfully", "result": result}, 201
 
-    except Exception as e:
-        return {"error": f"Internal Server Error: {str(e)}"}, 500
     
+@handle_exception
 @https_fn.on_request()
 def update_blog(request):
-    try:
+    
         # Validate Content-Type
         if request.headers.get("Content-Type") != "application/json":
             return {"error": "Unsupported Media Type"}, 415
@@ -60,12 +61,12 @@ def update_blog(request):
 
         return {"message": "blog updated successfully", "result": result}, 200
 
-    except Exception as e:
-        return {"error": f"Internal Server Error: {str(e)}"}, 500
+   
 
+@handle_exception
 @https_fn.on_request()
 def delete_blog(request):
-    try:
+    
         # Validate Content-Type
         if request.headers.get("Content-Type") != "application/json":
             return {"error": "Unsupported Media Type"}, 415
@@ -95,12 +96,12 @@ def delete_blog(request):
 
         return {"message": "blog deleted successfully"}, 200
 
-    except Exception as e:
-        return {"error": f"Internal Server Error: {str(e)}"}, 500
     
+
+@handle_exception
 @https_fn.on_request()
 def get_all_blogs(request):
-    try:
+   
         # Fetch all blogs using the CRUD repository
         blogs = crud_repo.get_all()  # Assuming crud_repo.find_all() returns all documents in the collection
 
@@ -109,13 +110,10 @@ def get_all_blogs(request):
 
         return {"message": "Blogs retrieved successfully", "blogs": blogs}, 200
 
-    except Exception as e:
-        return {"error": f"Internal Server Error: {str(e)}"}, 500
-
-
+@handle_exception
 @https_fn.on_request()
 def get_blog_by_id(request):
-    try:
+   
         # Validate Content-Type
         if request.headers.get("Content-Type") != "application/json":
             return {"error": "Unsupported Media Type"}, 415
@@ -137,6 +135,4 @@ def get_blog_by_id(request):
 
         return {"message": "Blog retrieved successfully", "blog": blog}, 200
 
-    except Exception as e:
-        return {"error": f"Internal Server Error: {str(e)}"}, 500
 

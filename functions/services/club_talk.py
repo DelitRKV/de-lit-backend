@@ -1,11 +1,13 @@
 from firebase_functions import https_fn
 from Utilities.crud_repo import CrudRepository
+from Utilities.utils import handle_exception
 
 crud_repo = CrudRepository(collection_name="ClubTalk")
 
+@handle_exception
 @https_fn.on_request()
 def create_card(request):
-    try:
+    
         # Validate Content-Type
         if request.headers.get("Content-Type") != "application/json":
             return {"error": "Unsupported Media Type"}, 415
@@ -25,12 +27,11 @@ def create_card(request):
         result = crud_repo.create(data)  # Assuming crud_repo.create is synchronous
         return {"message": "card created successfully", "result": result}, 201
 
-    except Exception as e:
-        return {"error": f"Internal Server Error: {str(e)}"}, 500
-    
+   
+@handle_exception 
 @https_fn.on_request()
 def update_card(request):
-    try:
+    
         # Validate Content-Type
         if request.headers.get("Content-Type") != "application/json":
             return {"error": "Unsupported Media Type"}, 415
@@ -60,12 +61,12 @@ def update_card(request):
 
         return {"message": "card updated successfully", "result": result}, 200
 
-    except Exception as e:
-        return {"error": f"Internal Server Error: {str(e)}"}, 500
+    
 
+@handle_exception
 @https_fn.on_request()
 def delete_card(request):
-    try:
+    
         # Validate Content-Type
         if request.headers.get("Content-Type") != "application/json":
             return {"error": "Unsupported Media Type"}, 415
@@ -92,13 +93,11 @@ def delete_card(request):
 
         return {"message": "card deleted successfully"}, 200
 
-    except Exception as e:
-        return {"error": f"Internal Server Error: {str(e)}"}, 500
     
-  
+@handle_exception
 @https_fn.on_request()
 def get_all_cards(request):
-    try:
+    
         # Fetch all cards using the CRUD repository
         cards = crud_repo.get_all()  # Assuming crud_repo.find_all() returns all documents in the collection
 
@@ -107,13 +106,12 @@ def get_all_cards(request):
 
         return {"message": "cards retrieved successfully", "cards": cards}, 200
 
-    except Exception as e:
-        return {"error": f"Internal Server Error: {str(e)}"}, 500
+   
 
-
+@handle_exception
 @https_fn.on_request()
 def get_card_by_id(request):
-    try:
+    
         # Validate Content-Type
         if request.headers.get("Content-Type") != "application/json":
             return {"error": "Unsupported Media Type"}, 415
@@ -135,7 +133,6 @@ def get_card_by_id(request):
 
         return {"message": "card retrieved successfully", "card": card}, 200
 
-    except Exception as e:
-        return {"error": f"Internal Server Error: {str(e)}"}, 500
+   
 
 

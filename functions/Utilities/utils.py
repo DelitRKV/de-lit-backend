@@ -6,16 +6,15 @@ from functools import wraps
 GITHUB_TOKEN = ""
 REPO_OWNER = "Harshad712"
 REPO_NAME = "RKV-SPORTS-TEST"
-FOLDER_PATH = "testing_delit"
 BRANCH = "main"
 
 
 
 def handle_exception(function):
     @wraps(function)
-    async def wrapper(*arguments, **kwargs):
+    def wrapper(*arguments, **kwargs):
         try:
-            return await function(*arguments, **kwargs)
+            return function(*arguments, **kwargs)
         except HTTPException as http_exce:
             raise http_exce
         except Exception as e:

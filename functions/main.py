@@ -9,7 +9,10 @@ from services.blog import create_blog,update_blog,delete_blog,get_all_blogs,get_
 from services.club_talk import create_card,update_card,delete_card,get_all_cards,get_card_by_id
 from services.about_us import create_member,update_member,delete_member,get_all_members,get_member_by_id
 from services.gallery import create_memory,delete_memory
- 
+from services.banner import upload_banner
+from services.home import create_block,update_block,delete_block,get_all_blocks,get_block_by_id
+from services.contributions import create_contribution,update_contribution,delete_contribution,get_all_contributions,get_contribution_by_id
+from services.feedback import create_feedback,update_feedback,delete_feedback,get_all_feedbacks,get_feedback_by_id
 
 initialize_app()
 
