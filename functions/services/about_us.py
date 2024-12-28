@@ -1,10 +1,13 @@
 from firebase_functions import https_fn
 from Utilities.crud_repo import CrudRepository
+from Utilities.utils import handle_exception
 
 crud_repo = CrudRepository(collection_name="AboutUs")
+
+@handle_exception
 @https_fn.on_request()
 def create_member(request):
-    try:
+    
         # Validate Content-Type
         content_type = request.headers.get("Content-Type", "")
         if "multipart/form-data" not in content_type:
@@ -35,14 +38,12 @@ def create_member(request):
         result = crud_repo.create(data)
         return {"message": "Member created successfully", "result": result}, 201
 
-    except Exception as e:
-        # Log error for debugging
-        print(f"Error occurred: {e}")
-        return {"error": f"Internal Server Error: {str(e)}"}, 500
+   
 
+@handle_exception
 @https_fn.on_request()
 def update_member(request):
-    try:
+    
         # Validate Content-Type for multipart/form-data
         if "multipart/form-data" not in request.headers.get("Content-Type", ""):
             return {"error": "Unsupported Media Type. Use 'multipart/form-data' for file uploads."}, 415
@@ -70,7 +71,7 @@ def update_member(request):
             # Extract current member details
             member = crud_repo.find_by({"id": member_id})
             if member:
-                old_profile_image_link = member.get("profile_image_link")
+                old_profile_image_link = member.get("profile_image")
 
                 # Delete the old profile image from GitHub if it exists
                 if old_profile_image_link:
@@ -84,7 +85,7 @@ def update_member(request):
                     return {"error": "Failed to upload new profile image to GitHub"}, 500
                 
                 # Add new profile image link to fields_to_update
-                fields_to_update["profile_image_link"] = new_image_link
+                fields_to_update["profile_image"] = new_image_link
 
         # Update the member details
         result = crud_repo.update(member_id, fields_to_update)
@@ -93,12 +94,10 @@ def update_member(request):
 
         return {"message": "Member updated successfully", "result": result}, 200
 
-    except Exception as e:
-        return {"error": f"Internal Server Error: {str(e)}"}, 500
-
+@handle_exception
 @https_fn.on_request()
 def delete_member(request):
-    try:
+    
         # Validate Content-Type
         if request.headers.get("Content-Type") != "application/json":
             return {"error": "Unsupported Media Type"}, 415
@@ -116,7 +115,7 @@ def delete_member(request):
         if not member:
             return {"error": "Member not found"}, 404
 
-        profile_image_link = member.get("profile_image_link")
+        profile_image_link = member.get("profile_image")
 
         # If there is a profile image, delete it from GitHub
         if profile_image_link:
@@ -131,13 +130,11 @@ def delete_member(request):
 
         return {"message": "Member and profile image deleted successfully"}, 200
 
-    except Exception as e:
-        return {"error": f"Internal Server Error: {str(e)}"}, 500
 
- 
+@handle_exception
 @https_fn.on_request()
 def get_all_members(request):
-    try:
+   
         # Fetch all members using the CRUD repository
         members = crud_repo.get_all()  # Assuming crud_repo.find_all() returns all documents in the collection
 
@@ -146,13 +143,11 @@ def get_all_members(request):
 
         return {"message": "members retrieved successfully", "members": members}, 200
 
-    except Exception as e:
-        return {"error": f"Internal Server Error: {str(e)}"}, 500
 
-
+@handle_exception
 @https_fn.on_request()
 def get_member_by_id(request):
-    try:
+    
         # Validate Content-Type
         if request.headers.get("Content-Type") != "application/json":
             return {"error": "Unsupported Media Type"}, 415
@@ -174,7 +169,5 @@ def get_member_by_id(request):
 
         return {"message": "member retrieved successfully", "member": member}, 200
 
-    except Exception as e:
-        return {"error": f"Internal Server Error: {str(e)}"}, 500
 
 

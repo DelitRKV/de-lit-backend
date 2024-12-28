@@ -1,11 +1,13 @@
 from firebase_functions import https_fn
 from Utilities.crud_repo import CrudRepository
+from Utilities.utils import handle_exception
 
 crud_repo = CrudRepository(collection_name="Gallery")
 
+@handle_exception
 @https_fn.on_request()
 def create_memory(request):
-    try:
+  
         # Validate Content-Type
         content_type = request.headers.get("Content-Type", "")
         if "multipart/form-data" not in content_type:
@@ -40,14 +42,11 @@ def create_memory(request):
             "firestore_result": result,
         }, 201
 
-    except Exception as e:
-        # Log error for debugging (optional)
-        print(f"Error occurred: {e}")
-        return {"error": f"Internal Server Error: {str(e)}"}, 500
-
+    
+@handle_exception
 @https_fn.on_request()
 def delete_memory(request):
-    try:
+    
         # Validate Content-Type
         content_type = request.headers.get("Content-Type", "")
         if "application/json" not in content_type:
@@ -81,7 +80,4 @@ def delete_memory(request):
             "firestore_response": delete_firestore_response,
         }, 200
 
-    except Exception as e:
-        # Log error for debugging (optional)
-        print(f"Error occurred: {e}")
-        return {"error": f"Internal Server Error: {str(e)}"}, 500
+   

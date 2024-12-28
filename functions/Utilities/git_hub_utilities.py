@@ -1,11 +1,11 @@
-from .utils import GITHUB_TOKEN, REPO_OWNER, REPO_NAME, FOLDER_PATH
+from .utils import GITHUB_TOKEN, REPO_OWNER, REPO_NAME
 import httpx
 import datetime
 import base64
 from fastapi import HTTPException
 import re
 
-def upload_to_github(file_content, file_name):
+def upload_to_github(file_content, file_name,FOLDER_PATH):
     """ Uploading the actual image file into GitHub repository
     
     Args:

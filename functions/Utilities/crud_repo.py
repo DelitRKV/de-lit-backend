@@ -4,8 +4,8 @@ from typing import TypeVar, Generic, Optional, List, Dict
 from pydantic import BaseModel
 from datetime import datetime
 from Utilities.git_hub_utilities import upload_to_github, delete_file_from_github
-from Utilities.utils import REPO_OWNER, REPO_NAME, FOLDER_PATH, BRANCH
-from flask import request
+from Utilities.utils import REPO_OWNER, REPO_NAME, BRANCH
+
 
 T = TypeVar('T', bound=BaseModel)
 
@@ -13,6 +13,7 @@ class CrudRepository(Generic[T]):
     def __init__(self, collection_name: str):
         self.db = firestore.Client()
         self.collection = self.db.collection(collection_name)
+        self.collection_name = collection_name
 
     def create(self, data: T) -> T:
         try:
@@ -79,10 +80,10 @@ class CrudRepository(Generic[T]):
             file.stream.seek(0)
             
             
-            response =upload_to_github(file_content, file.filename)
+            response =upload_to_github(file_content, file.filename,self.collection_name)
 
             if response.status_code == 201:
-                file_url = f"https://raw.githubusercontent.com/{REPO_OWNER}/{REPO_NAME}/{BRANCH}/{FOLDER_PATH}/{file.filename}"
+                file_url = f"https://raw.githubusercontent.com/{REPO_OWNER}/{REPO_NAME}/{BRANCH}/{self.collection_name}/{file.filename}"
             else:
                 raise HTTPException(status_code=400, detail="Error uploading file to GitHub")
 

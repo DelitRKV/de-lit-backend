@@ -1,12 +1,14 @@
 from firebase_functions import https_fn
 from Utilities.crud_repo import CrudRepository
+from Utilities.utils import handle_exception
 
 
 crud_repo = CrudRepository(collection_name="Publications")
 
+@handle_exception
 @https_fn.on_request()
 def create_publication(request):
-    try:
+    
         # Validate Content-Type
         content_type = request.headers.get("Content-Type", "")
         if "multipart/form-data" not in content_type:
@@ -62,14 +64,11 @@ def create_publication(request):
             "firestore_result": result,
         }, 201
 
-    except Exception as e:
-        # Log the error for debugging
-        print(f"Error occurred: {e}")
-        return {"error": f"Internal Server Error: {str(e)}"}, 500
-    
+   
+@handle_exception
 @https_fn.on_request()
 def update_publication(request):
-    try:
+    
         # Validate Content-Type
         if request.headers.get("Content-Type") != "application/json":
             return {"error": "Unsupported Media Type"}, 415
@@ -101,11 +100,11 @@ def update_publication(request):
 
         return {"message": "Publication updated successfully", "result": result}, 200
 
-    except Exception as e:
-        return {"error": f"Internal Server Error: {str(e)}"}, 500
+
+@handle_exception
 @https_fn.on_request()
 def delete_publication(request):
-    try:
+    
         # Validate Content-Type
         if request.headers.get("Content-Type") != "application/json":
             return {"error": "Unsupported Media Type"}, 415
@@ -143,13 +142,12 @@ def delete_publication(request):
 
         return {"message": "Publication deleted successfully"}, 200
 
-    except Exception as e:
-        return {"error": f"Internal Server Error: {str(e)}"}, 500
+   
 
- 
+@handle_exception
 @https_fn.on_request()
 def get_all_publications(request):
-    try:
+    
         # Fetch all publications using the CRUD repository
         publications = crud_repo.get_all()  # Assuming crud_repo.find_all() returns all documents in the collection
 
@@ -158,13 +156,12 @@ def get_all_publications(request):
 
         return {"message": "publications retrieved successfully", "publications": publications}, 200
 
-    except Exception as e:
-        return {"error": f"Internal Server Error: {str(e)}"}, 500
+   
 
-
+@handle_exception
 @https_fn.on_request()
 def get_publication_by_id(request):
-    try:
+    
         # Validate Content-Type
         if request.headers.get("Content-Type") != "application/json":
             return {"error": "Unsupported Media Type"}, 415
@@ -186,7 +183,5 @@ def get_publication_by_id(request):
 
         return {"message": "publication retrieved successfully", "publication": publication}, 200
 
-    except Exception as e:
-        return {"error": f"Internal Server Error: {str(e)}"}, 500
 
 
