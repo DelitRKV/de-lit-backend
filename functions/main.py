@@ -13,6 +13,7 @@ from services.banner import upload_banner
 from services.home import create_block,update_block,delete_block,get_all_blocks,get_block_by_id
 from services.contributions import create_contribution,update_contribution,delete_contribution,get_all_contributions,get_contribution_by_id
 from services.feedback import create_feedback,update_feedback,delete_feedback,get_all_feedbacks,get_feedback_by_id
+from services.mails import upload_mail,get_all_emails
 
 initialize_app()
 

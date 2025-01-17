@@ -1,6 +1,7 @@
 from firebase_functions import https_fn
 from Utilities.crud_repo import CrudRepository
 from Utilities.utils import handle_exception
+from Utilities.email_service import send_email_to_users
 
 crud_repo = CrudRepository(collection_name="Banner")
 
@@ -63,3 +64,11 @@ def upload_banner(request):
         }, 201
 
   
+'''
+@handle_exception
+@https_fn.on_request()
+def send_email(request):
+    if send_email_to_users("Hello") :
+        return {"message":"Mails sent sucssfully"}
+    return {"message":"Mails not sent"}
+    '''
