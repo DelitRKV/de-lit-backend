@@ -18,6 +18,8 @@
     {
       "source": "functions",
       "codebase": "default",
+
+      "timeoutSeconds": 540,
       "ignore": [
         "venv",
         ".git",

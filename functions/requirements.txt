@@ -5,3 +5,7 @@ aiohttp
 python-multipart
 uvicorn
 mangum
+python-dotenv
+httpx
+google-cloud-firestore
+functions-framework

@@ -1,6 +1,7 @@
 from firebase_functions import https_fn
 from Utilities.crud_repo import CrudRepository
 from Utilities.utils import handle_exception
+#from Utilities.email_service import send_email_to_users
 
 
 crud_repo = CrudRepository(collection_name="Publications")
@@ -19,8 +20,8 @@ def create_publication(request):
         publication_file = request.files.get("publication_file")
         other_fields = {key: request.form.get(key) for key in request.form}
 
-        if  not publication_file or not other_fields.get("publication_name"):
-            return {"error": " publication_file, and publication_name are required"}, 400
+        if  not publication_file :
+            return {"error": " publication_file is  required"}, 400
 
         publication_name = other_fields["publication_name"]
         
@@ -57,6 +58,8 @@ def create_publication(request):
 
         # Create the publication in Firestore
         result = crud_repo.create(firestore_data)
+        '''if result:
+            send_email_to_users(publication_name)'''
 
         return {
             "message": "Publication created successfully",

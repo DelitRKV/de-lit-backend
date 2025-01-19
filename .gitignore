@@ -1,2 +1,5 @@
 functions/venv/
 .env
+*.key
+*.pem
+config.json
