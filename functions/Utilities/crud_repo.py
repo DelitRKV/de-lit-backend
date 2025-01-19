@@ -1,17 +1,24 @@
 from fastapi import HTTPException, UploadFile
 from google.cloud import firestore
+from google.oauth2 import service_account
 from typing import TypeVar, Generic, Optional, List, Dict
 from pydantic import BaseModel
 from datetime import datetime
 from Utilities.git_hub_utilities import upload_to_github, delete_file_from_github
 from Utilities.utils import REPO_OWNER, REPO_NAME, BRANCH
+import os
+
+#service_account_path = os.getenv("GOOGLE_APPLICATION_CREDENTIALS")
+#credentials = service_account.Credentials.from_service_account_file(service_account_path)
+project_id = "de-lit-web"
 
 
 T = TypeVar('T', bound=BaseModel)
 
 class CrudRepository(Generic[T]):
     def __init__(self, collection_name: str):
-        self.db = firestore.Client()
+        
+        self.db = firestore.Client(project=project_id)
         self.collection = self.db.collection(collection_name)
         self.collection_name = collection_name
 

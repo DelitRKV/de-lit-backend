@@ -1,7 +1,7 @@
 from firebase_functions import https_fn
 from Utilities.crud_repo import CrudRepository
 from Utilities.utils import handle_exception
-from Utilities.email_service import send_email_to_users
+#from Utilities.email_service import send_email_to_users
 
 crud_repo = CrudRepository(collection_name="Banner")
 
