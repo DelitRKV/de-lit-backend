@@ -24,10 +24,10 @@ def create_feedback(request):
 
         
 
-        # Upload the profile file (if provided)
+        
         feedback_file_link = None
         if feedback_file:
-            feedback_file_link = crud_repo.upload_file(feedback_file)
+            feedback_file_link = crud_repo.upload_image(feedback_file)
             if not feedback_file_link:
                 return {"error": "Failed to upload profile file to GitHub"}, 500
 
@@ -71,18 +71,18 @@ def update_feedback(request):
             if feedback:
                 old_feedback_file_link = feedback.get("feedback_file_link")
 
-                # Delete the old profile file from GitHub if it exists
+               
                 if old_feedback_file_link:
                     cover_file_delete = crud_repo.delete_link(old_feedback_file_link)
                     if not cover_file_delete:
                         return {"error": "Failed to delete the old profile file from GitHub"}, 500
 
-                # Upload the new profile file to GitHub
-                new_file_link = crud_repo.upload_file(feedback_file)
+                
+                new_file_link = crud_repo.upload_image(feedback_file)
                 if not new_file_link:
                     return {"error": "Failed to upload new profile file to GitHub"}, 500
                 
-                # Add new profile file link to fields_to_update
+               
                 fields_to_update["feedback_file_link"] = new_file_link
 
         # Update the feedback details
