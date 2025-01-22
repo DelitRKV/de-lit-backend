@@ -24,10 +24,10 @@ def create_contribution(request):
 
         
 
-        # Upload the profile file (if provided)
+        
         contribution_file_link = None
         if contribution_file:
-            contribution_file_link = crud_repo.upload_file(contribution_file)
+            contribution_file_link = crud_repo.upload_image(contribution_file)
             if not contribution_file_link:
                 return {"error": "Failed to upload profile file to GitHub"}, 500
 
@@ -79,8 +79,8 @@ def update_contribution(request):
                     if not cover_file_delete:
                         return {"error": "Failed to delete the old profile file from GitHub"}, 500
 
-                # Upload the new profile file to GitHub
-                new_file_link = crud_repo.upload_file(contribution_file)
+                
+                new_file_link = crud_repo.upload_image(contribution_file)
                 if not new_file_link:
                     return {"error": "Failed to upload new profile file to GitHub"}, 500
                 

@@ -6,21 +6,28 @@ import json
 
 load_dotenv()
 
+firebase_config = os.getenv('FIREBASE_CONFIG')
+    
+
+# Parse the Firebase Config JSON
+firebase_config = json.loads(firebase_config)
+        
+# Access the specific keys
+github_token = firebase_config.get('github', {}).get('token')
+    
+GITHUB_TOKEN = github_token
+       
 
 
-GITHUB_TOKEN = os.getenv("GITHUB_TOKEN")
+
+
+
+
+
 REPO_OWNER = "DelitRKV"
 REPO_NAME = "de-lit-media"
 BRANCH = "main"
 
-firebase_config = os.getenv("FIREBASE_CONFIG")
-
-# Parse JSON config if it's in a string format
-if firebase_config:
-    config = json.loads(firebase_config)
-    
-    # Access nested dictionary values
-    #GITHUB_TOKEN = config.get("github", {}).get("token")
 
 
 def handle_exception(function):

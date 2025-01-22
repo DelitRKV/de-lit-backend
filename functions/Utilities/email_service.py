@@ -15,7 +15,7 @@ from Utilities.mail_utilities import config,EmailRequest
         raise ValueError("No users found to send emails")
 
     sender_email = "harshadkokkiniti@gmail.com"
-    sender_password = "Harshad@786"
+    sender_password = ""
     smtp_server = "smtp.gmail.com"
     smtp_port = 587
     
@@ -40,7 +40,7 @@ from Utilities.mail_utilities import config,EmailRequest
 
 conf = config(
     MAIL_USERNAME="harshadkokkinti@gmail.com",
-    MAIL_PASSWORD="rzxc hbei uirf jfze",
+    MAIL_PASSWORD="",
     MAIL_FROM="harshadkokkiniti@gmail.com",
     MAIL_FROM_NAME="De-Lit",
     MAIL_PORT=587,
