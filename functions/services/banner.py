@@ -27,7 +27,7 @@ def upload_banner(request):
     #if not banner_file:
         #return {"error": "Banner file is required"}, 400
     banner_data={}
-    if banner_id and banner_file:
+    if banner_file:
         # Check if banner already exists using the provided ID
         existing_banner = crud_repo.find_by({"id": banner_id})
         if existing_banner:
@@ -45,8 +45,9 @@ def upload_banner(request):
 
         # Prepare data for Firestore
         banner_data = {"banner_link": banner_image_link}
-    if banner_data == None:
-        banner_data={}
+    
+        
+   
     if banner_quote:
         banner_data["quote"] = banner_quote  # Only include quote if provided
 
