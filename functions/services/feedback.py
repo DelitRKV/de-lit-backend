@@ -1,11 +1,11 @@
 from firebase_functions import https_fn
 from Utilities.crud_repo import CrudRepository
-from Utilities.utils import handle_exception
+from Utilities.utils import handle_exception,cors_config
 
 crud_repo = CrudRepository(collection_name="Feedbacks")
 
 @handle_exception
-@https_fn.on_request()
+@https_fn.on_request(cors=cors_config)
 def create_feedback(request):
   
         # Validate Content-Type
@@ -39,7 +39,7 @@ def create_feedback(request):
         return {"message": "feedback created successfully", "result": result}, 201
 
 @handle_exception
-@https_fn.on_request()
+@https_fn.on_request(cors=cors_config)
 def update_feedback(request):
     
         # Validate Content-Type for multipart/form-data
@@ -94,20 +94,13 @@ def update_feedback(request):
 
     
 
-@https_fn.on_request()
+@https_fn.on_request(cors=cors_config)
 def delete_feedback(request):
     
-        # Validate Content-Type
-        if request.headers.get("Content-Type") != "application/json":
-            return {"error": "Unsupported Media Type"}, 415
-
-        # Parse the request JSON
-        data = request.json
-        if not data:
-            return {"error": "No data provided"}, 400
+      
 
         # Extract the ID of the feedback to delete
-        feedback_id = data.get("id")
+        feedback_id = request.args.get("id")
 
         # Find the feedback by ID to retrieve the profile file link
         feedback = crud_repo.find_by({"id": feedback_id})
@@ -132,7 +125,7 @@ def delete_feedback(request):
     
 
 @handle_exception
-@https_fn.on_request()
+@https_fn.on_request(cors=cors_config)
 def get_all_feedbacks(request):
     
         # Fetch all feedbacks using the CRUD repository
@@ -145,20 +138,11 @@ def get_all_feedbacks(request):
 
 
 @handle_exception
-@https_fn.on_request()
+@https_fn.on_request(cors=cors_config)
 def get_feedback_by_id(request):
     
-        # Validate Content-Type
-        if request.headers.get("Content-Type") != "application/json":
-            return {"error": "Unsupported Media Type"}, 415
-
-        # Parse the request JSON
-        data = request.json
-        if not data:
-            return {"error": "No data provided"}, 400
-
         # Extract the feedback feedback_title from the request
-        feedback_id = data.get("id")
+        feedback_id = request.args.get("id")
         if not feedback_id:
             return {"error": "Missing required field: feedback_id"}, 400
 

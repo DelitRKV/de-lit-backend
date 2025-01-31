@@ -5,12 +5,14 @@ import base64
 from fastapi import HTTPException
 import re
 
-def upload_to_github(file_content, file_name,FOLDER_PATH):
-    """ Uploading the actual image file into GitHub repository
+
+def upload_to_github(file_content, file_name, folder_path):
+    """ Uploading the actual image file into GitHub repository with timestamp in filename
     
     Args:
         file_content (bytes): actual file content (binary data)
         file_name (str): name of the file
+        folder_path (str): GitHub folder path where the file should be uploaded
     
     Returns:
         httpx.Response: Response object from GitHub API
@@ -19,8 +21,14 @@ def upload_to_github(file_content, file_name,FOLDER_PATH):
     if not isinstance(file_content, bytes):
         raise ValueError("file_content must be in binary format")
 
+    # Generate timestamp
+    timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M")
+    
+    # Modify the filename to include timestamp
+    file_name_with_timestamp = f"{timestamp}_{file_name}"
+    
     # GitHub API URL
-    url = f"https://api.github.com/repos/{REPO_OWNER}/{REPO_NAME}/contents/{FOLDER_PATH}/{file_name}"
+    url = f"https://api.github.com/repos/{REPO_OWNER}/{REPO_NAME}/contents/{folder_path}/{file_name_with_timestamp}"
 
     # Prepare headers
     headers = {
@@ -28,22 +36,22 @@ def upload_to_github(file_content, file_name,FOLDER_PATH):
         "Accept": "application/vnd.github.v3+json"
     }
 
-    # Get current time for commit message
-    now = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    # Commit message
+    commit_message = f"Add {file_name_with_timestamp} at {timestamp}"
     
     # Base64 encode the file content
     encoded_content = base64.b64encode(file_content).decode("utf-8")
     
     # Data for the API request
     data = {
-        "message": f"Add {file_name} at {now}",
+        "message": commit_message,
         "content": encoded_content
     }
 
     # Use a synchronous client since the rest of the code is not asynchronous
     response = httpx.put(url, json=data, headers=headers)
-    
     return response
+
 
 def delete_file_from_github(link: str):
     """Delete the file from a GitHub repository.
@@ -103,5 +111,6 @@ def delete_file_from_github(link: str):
             status_code=delete_response.status_code,
             detail=f"Failed to delete the file: {delete_response.text}"
         )
+    print(delete_response)
 
     return delete_response

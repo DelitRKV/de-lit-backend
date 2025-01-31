@@ -1,11 +1,12 @@
 from firebase_functions import https_fn
 from Utilities.crud_repo import CrudRepository
-from Utilities.utils import handle_exception
+from Utilities.utils import handle_exception,cors_config
+
 
 crud_repo = CrudRepository(collection_name="AboutUs")
 
 @handle_exception
-@https_fn.on_request()
+@https_fn.on_request(cors=cors_config)
 def create_member(request):
     
         # Validate Content-Type
@@ -41,7 +42,7 @@ def create_member(request):
    
 
 @handle_exception
-@https_fn.on_request()
+@https_fn.on_request(cors=cors_config)
 def update_member(request):
     
         # Validate Content-Type for multipart/form-data
@@ -95,20 +96,13 @@ def update_member(request):
         return {"message": "Member updated successfully", "result": result}, 200
 
 @handle_exception
-@https_fn.on_request()
+@https_fn.on_request(cors=cors_config)
 def delete_member(request):
     
-        # Validate Content-Type
-        if request.headers.get("Content-Type") != "application/json":
-            return {"error": "Unsupported Media Type"}, 415
-
-        # Parse the request JSON
-        data = request.json
-        if not data:
-            return {"error": "No data provided"}, 400
+       
 
         # Extract the ID of the member to delete
-        member_id = data.get("id")
+        member_id = request.args.get("id")
 
         # Find the member by ID to retrieve the profile image link
         member = crud_repo.find_by({"id": member_id})
@@ -132,7 +126,7 @@ def delete_member(request):
 
 
 @handle_exception
-@https_fn.on_request()
+@https_fn.on_request(cors=cors_config)
 def get_all_members(request):
    
         # Fetch all members using the CRUD repository
@@ -145,20 +139,13 @@ def get_all_members(request):
 
 
 @handle_exception
-@https_fn.on_request()
+@https_fn.on_request(cors=cors_config)
 def get_member_by_id(request):
     
-        # Validate Content-Type
-        if request.headers.get("Content-Type") != "application/json":
-            return {"error": "Unsupported Media Type"}, 415
-
-        # Parse the request JSON
-        data = request.json
-        if not data:
-            return {"error": "No data provided"}, 400
+        
 
         # Extract the member member_name from the request
-        member_id = data.get("id")
+        member_id = request.args.get("id")
         if not member_id:
             return {"error": "Missing required field: member_id"}, 400
 

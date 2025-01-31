@@ -1,11 +1,11 @@
 from firebase_functions import https_fn
 from Utilities.crud_repo import CrudRepository
-from Utilities.utils import handle_exception
+from Utilities.utils import handle_exception,cors_config
 
 crud_repo = CrudRepository(collection_name="Home")
 
 @handle_exception
-@https_fn.on_request()
+@https_fn.on_request(cors=cors_config)
 def create_block(request):
   
         # Validate Content-Type
@@ -40,7 +40,7 @@ def create_block(request):
 
    
 @handle_exception
-@https_fn.on_request()
+@https_fn.on_request(cors=cors_config)
 def update_block(request):
     
         # Validate Content-Type for multipart/form-data
@@ -94,20 +94,11 @@ def update_block(request):
         return {"message": "block updated successfully", "result": result}, 200
 
 @handle_exception
-@https_fn.on_request()
+@https_fn.on_request(cors=cors_config)
 def delete_block(request):
    
-        # Validate Content-Type
-        if request.headers.get("Content-Type") != "application/json":
-            return {"error": "Unsupported Media Type"}, 415
-
-        # Parse the request JSON
-        data = request.json
-        if not data:
-            return {"error": "No data provided"}, 400
-
         # Extract the ID of the block to delete
-        block_id = data.get("id")
+        block_id = request.args.get("id")
 
         # Find the block by ID to retrieve the profile image link
         block = crud_repo.find_by({"id": block_id})
@@ -132,7 +123,7 @@ def delete_block(request):
     
 
 @handle_exception
-@https_fn.on_request()
+@https_fn.on_request(cors=cors_config)
 def get_all_blocks(request):
     
         # Fetch all blocks using the CRUD repository
@@ -146,20 +137,13 @@ def get_all_blocks(request):
     
 
 @handle_exception
-@https_fn.on_request()
+@https_fn.on_request(cors=cors_config)
 def get_block_by_id(request):
     
-        # Validate Content-Type
-        if request.headers.get("Content-Type") != "application/json":
-            return {"error": "Unsupported Media Type"}, 415
-
-        # Parse the request JSON
-        data = request.json
-        if not data:
-            return {"error": "No data provided"}, 400
+       
 
         # Extract the block block_title from the request
-        block_id = data.get("id")
+        block_id = request.args.get("id")
         if not block_id:
             return {"error": "Missing required field: block_id"}, 400
 

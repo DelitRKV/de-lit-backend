@@ -1,12 +1,12 @@
 from firebase_functions import https_fn
 from Utilities.crud_repo import CrudRepository
-from Utilities.utils import handle_exception
+from Utilities.utils import handle_exception,cors_config
 #from Utilities.email_service import send_email_to_users
 
 crud_repo = CrudRepository(collection_name="Banner")
 
 @handle_exception
-@https_fn.on_request()
+@https_fn.on_request(cors=cors_config)
 def upload_banner(request):
     
    
@@ -68,7 +68,7 @@ def upload_banner(request):
 
   
 @handle_exception
-@https_fn.on_request()
+@https_fn.on_request(cors=cors_config)
 def get_banner(request):
    
         # Fetch  banner using the CRUD repository

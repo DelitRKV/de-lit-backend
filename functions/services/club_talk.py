@@ -1,11 +1,11 @@
 from firebase_functions import https_fn
 from Utilities.crud_repo import CrudRepository
-from Utilities.utils import handle_exception
+from Utilities.utils import handle_exception,cors_config
 
 crud_repo = CrudRepository(collection_name="ClubTalk")
 
 @handle_exception
-@https_fn.on_request()
+@https_fn.on_request(cors=cors_config)
 def create_card(request):
     
         # Validate Content-Type
@@ -29,7 +29,7 @@ def create_card(request):
 
    
 @handle_exception 
-@https_fn.on_request()
+@https_fn.on_request(cors=cors_config)
 def update_card(request):
     
         # Validate Content-Type
@@ -64,27 +64,13 @@ def update_card(request):
     
 
 @handle_exception
-@https_fn.on_request()
+@https_fn.on_request(cors=cors_config)
 def delete_card(request):
     
-        # Validate Content-Type
-        if request.headers.get("Content-Type") != "application/json":
-            return {"error": "Unsupported Media Type"}, 415
-
-        # Parse the request JSON
-        data = request.json
-        if not data:
-            return {"error": "No data provided"}, 400
-
-        # Extract the card_name and check if it's provided
-        card_name = data.get("card_name")
-        if not card_name:
-            return {"error": "Missing required field: card_name"}, 400
-
-        
-
         # Extract the ID of the card to delete
-        card_id = data.get("id")
+        card_id = request.args.get("id")
+        if not card_id:
+            return {"error": "Missing required field: card_id"}, 400
 
         # Delete the card using the CRUD repository
         result = crud_repo.delete(card_id)
@@ -95,7 +81,7 @@ def delete_card(request):
 
     
 @handle_exception
-@https_fn.on_request()
+@https_fn.on_request(cors=cors_config)
 def get_all_cards(request):
     
         # Fetch all cards using the CRUD repository
@@ -109,20 +95,13 @@ def get_all_cards(request):
    
 
 @handle_exception
-@https_fn.on_request()
+@https_fn.on_request(cors=cors_config)
 def get_card_by_id(request):
     
-        # Validate Content-Type
-        if request.headers.get("Content-Type") != "application/json":
-            return {"error": "Unsupported Media Type"}, 415
-
-        # Parse the request JSON
-        data = request.json
-        if not data:
-            return {"error": "No data provided"}, 400
+       
 
         # Extract the card card_name from the request
-        id = data.get("id")
+        id = request.args.get("id")
         if not id:
             return {"error": "Missing required field: card_name"}, 400
 

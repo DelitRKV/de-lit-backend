@@ -8,6 +8,7 @@ from Utilities.git_hub_utilities import upload_to_github, delete_file_from_githu
 from Utilities.utils import REPO_OWNER, REPO_NAME, BRANCH
 import os
 
+
 #service_account_path = os.getenv("GOOGLE_APPLICATION_CREDENTIALS")
 #credentials = service_account.Credentials.from_service_account_file(service_account_path)
 project_id = "de-lit-web"
@@ -87,10 +88,17 @@ class CrudRepository(Generic[T]):
             file.stream.seek(0)
             
             
+            
             response =upload_to_github(file_content, file.filename,self.collection_name)
+            
+            # Generate timestamp
+            timestamp = datetime.now().strftime("%Y%m%d_%H%M")
+    
+            # Modify the filename to include timestamp
+            file_name_with_timestamp = f"{timestamp}_{file.filename}"
 
             if response.status_code == 201:
-                file_url = f"https://raw.githubusercontent.com/{REPO_OWNER}/{REPO_NAME}/{BRANCH}/{self.collection_name}/{file.filename}"
+                file_url = f"https://raw.githubusercontent.com/{REPO_OWNER}/{REPO_NAME}/{BRANCH}/{self.collection_name}/{file_name_with_timestamp}"
             else:
                 raise HTTPException(status_code=400, detail="Error uploading file to GitHub")
 

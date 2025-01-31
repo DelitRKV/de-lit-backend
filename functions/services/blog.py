@@ -1,11 +1,11 @@
 from firebase_functions import https_fn
 from Utilities.crud_repo import CrudRepository
-from Utilities.utils import handle_exception
+from Utilities.utils import handle_exception,cors_config
 
 crud_repo = CrudRepository(collection_name="Blogs")
 
 @handle_exception
-@https_fn.on_request()
+@https_fn.on_request(cors=cors_config)
 def create_blog(request):
     
         # Validate Content-Type
@@ -29,7 +29,7 @@ def create_blog(request):
 
     
 @handle_exception
-@https_fn.on_request()
+@https_fn.on_request(cors=cors_config)
 def update_blog(request):
     
         # Validate Content-Type
@@ -64,33 +64,25 @@ def update_blog(request):
    
 
 @handle_exception
-@https_fn.on_request()
+@https_fn.on_request(cors=cors_config)
 def delete_blog(request):
     
-        # Validate Content-Type
-        if request.headers.get("Content-Type") != "application/json":
-            return {"error": "Unsupported Media Type"}, 415
-
-        # Parse the request JSON
-        data = request.json
-        if not data:
-            return {"error": "No data provided"}, 400
+       
 
         # Extract the blog_name and check if it's provided
-        title = data.get("title")
-        if not title:
-            return {"error": "Missing required field: title"}, 400
+        id = request.args.get("id")
+        if not id:
+            return {"error": "Missing required field: id"}, 400
 
         # Find the blog by blog_name
-        blog = crud_repo.find_by({"title": title})
+        blog = crud_repo.find_by({"id": id})
         if not blog:
-            return {"error": f"blog with name '{title}' not found"}, 404
+            return {"error": f"blog with if '{id}' not found"}, 404
 
-        # Extract the ID of the blog to delete
-        blog_id = blog.get("id")
+       
 
         # Delete the blog using the CRUD repository
-        result = crud_repo.delete(blog_id)
+        result = crud_repo.delete(id)
         if not result:
             return {"error": "Failed to delete blog"}, 500
 
@@ -99,7 +91,7 @@ def delete_blog(request):
     
 
 @handle_exception
-@https_fn.on_request()
+@https_fn.on_request(cors=cors_config)
 def get_all_blogs(request):
    
         # Fetch all blogs using the CRUD repository
@@ -111,20 +103,14 @@ def get_all_blogs(request):
         return {"message": "Blogs retrieved successfully", "blogs": blogs}, 200
 
 @handle_exception
-@https_fn.on_request()
+@https_fn.on_request(cors=cors_config)
 def get_blog_by_id(request):
    
         # Validate Content-Type
-        if request.headers.get("Content-Type") != "application/json":
-            return {"error": "Unsupported Media Type"}, 415
-
-        # Parse the request JSON
-        data = request.json
-        if not data:
-            return {"error": "No data provided"}, 400
+        
 
         # Extract the blog title from the request
-        id = data.get("id")
+        id = request.args.get("id")
         if not id:
             return {"error": "Missing required field: title"}, 400
 
