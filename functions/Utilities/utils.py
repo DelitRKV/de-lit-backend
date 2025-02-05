@@ -46,7 +46,7 @@ def is_url(string):
 
 def is_github_link(url):
     """Check if the URL is a GitHub link."""
-    return "github.com" in url
+    return "raw.githubusercontent.com" in url
 
 
 

@@ -21,14 +21,10 @@ def upload_to_github(file_content, file_name, folder_path):
     if not isinstance(file_content, bytes):
         raise ValueError("file_content must be in binary format")
 
-    # Generate timestamp
     timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M")
     
-    # Modify the filename to include timestamp
-    file_name_with_timestamp = f"{timestamp}_{file_name}"
-    
     # GitHub API URL
-    url = f"https://api.github.com/repos/{REPO_OWNER}/{REPO_NAME}/contents/{folder_path}/{file_name_with_timestamp}"
+    url = f"https://api.github.com/repos/{REPO_OWNER}/{REPO_NAME}/contents/{folder_path}/{file_name}"
 
     # Prepare headers
     headers = {
@@ -37,7 +33,7 @@ def upload_to_github(file_content, file_name, folder_path):
     }
 
     # Commit message
-    commit_message = f"Add {file_name_with_timestamp} at {timestamp}"
+    commit_message = f"Add {file_name} at {timestamp}"
     
     # Base64 encode the file content
     encoded_content = base64.b64encode(file_content).decode("utf-8")

@@ -55,7 +55,7 @@ def create_publication(request):
         else:
             firestore_data = {
             
-            "publicaton_type":publication_type,
+            "publication_type":publication_type,
             
             "publication_file_link": publication_file_link,
              }
@@ -80,17 +80,11 @@ def create_publication(request):
 @https_fn.on_request(cors=cors_config)
 def update_publication(request):
     
-         # Validate Content-Type for multipart/form-data
-        if "multipart/form-data" not in request.headers.get("Content-Type", ""):
-            return {"error": "Unsupported Media Type. Use 'multipart/form-data' for file uploads."}, 415
-
-        
-
          # Extract text data and file from the request
         publication_id = request.form.get("id")
         cover_image = request.files.get("image")# Extracting image file
         image_link = request.form.get("image")
-        publication_type = request.form.get("type")
+        
         
         if not publication_id:
             return {"error":"publication_id not found"}, 404
@@ -99,9 +93,8 @@ def update_publication(request):
         if not publication:
             return {"error": "Publication not found"}, 404
         # Remove publication_name from the fields to update (so it's not updated itself)
-        fields_to_update = {key: value for key, value in request.form.items() if key not in [ "id","type","image"]}
-        if publication_type:
-            fields_to_update["publication_type"] = publication_type
+        fields_to_update = {key: value for key, value in request.form.items() if key not in [ "id","image"]}
+
         if not fields_to_update:
             return {"error": "No fields to update provided"}, 400
         
@@ -111,7 +104,7 @@ def update_publication(request):
                 old_cover_image_link = publication.get("cover_image_link")
 
                 # Delete the old cover image from GitHub if it exists
-                if (is_github_link(old_cover_image_link)):
+                if (old_cover_image_link and is_github_link(old_cover_image_link)):
                     cover_image_delete = crud_repo.delete_link(old_cover_image_link)
                     if not cover_image_delete:
                         return {"error": "Failed to delete the old cover image from GitHub"}, 500
@@ -138,8 +131,6 @@ def update_publication(request):
 @https_fn.on_request(cors=cors_config)
 def delete_publication(request):
     
-       
-
         # Extract the ID of the publication to delete
         publication_id = request.args.get("id")
         if not publication_id:
@@ -152,9 +143,9 @@ def delete_publication(request):
 
         # Delete associated links if they exist
         cover_image_link = publication.get("cover_image_link")
-        publication_link = publication.get("publication_link")
+        publication_link = publication.get("publication_file_link")
 
-        if (is_github_link(cover_image_link)):
+        if (cover_image_link and is_github_link(cover_image_link)):
             if not crud_repo.delete_link(cover_image_link):
                 return {"error": "Failed to delete the cover image from GitHub"}, 500
 
@@ -174,17 +165,30 @@ def delete_publication(request):
 @https_fn.on_request(cors=cors_config)
 def get_all_publications(request):
 
-        
         # Fetch all publications using the CRUD repository
         publication_type = request.args.get("type")
         all_publications = crud_repo.get_all()  # Assuming crud_repo.find_all() returns all documents in the collection
         publications=[]
         for publication in all_publications:
             if (publication.get("publication_type")==publication_type):
-                publications.append(publication)
+                    publications.append(publication)
         if not publications:
             return {"message": "No publications found","publications":publications}, 404
 
         return {"message": "publications retrieved successfully", "publications": publications}, 200
 
+
+@handle_exception
+@https_fn.on_request(cors=cors_config)
+def delete_all_publications(request):
+    
+    
+    all_publications = crud_repo.get_all()  # Assuming crud_repo.find_all() returns all documents in the collection
+    
+    for publication in all_publications:
+        publication_id = publication.get("id")
+        if not crud_repo.delete(publication_id):
+            return {"message":"publication not deleted"}, 400
+    return {"Message":"Successfully Delted All Publications"},200 
+    
    

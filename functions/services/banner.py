@@ -8,9 +8,6 @@ crud_repo = CrudRepository(collection_name="Banner")
 @handle_exception
 @https_fn.on_request(cors=cors_config)
 def upload_banner(request):
-    
-   
-    
     # Validate Content-Type
     content_type = request.headers.get("Content-Type", "")
     if "multipart/form-data" not in content_type:
