@@ -1,101 +1,132 @@
 from firebase_functions import https_fn
 from Utilities.crud_repo import CrudRepository
-from Utilities.utils import handle_exception
+from Utilities.utils import handle_exception,cors_config
 
 crud_repo = CrudRepository(collection_name="ClubTalk")
 
+
 @handle_exception
-@https_fn.on_request()
+@https_fn.on_request(cors=cors_config)
 def create_card(request):
     
         # Validate Content-Type
-        if request.headers.get("Content-Type") != "application/json":
+        content_type = request.headers.get("Content-Type", "")
+        if "multipart/form-data" not in content_type:
             return {"error": "Unsupported Media Type"}, 415
 
-        # Parse the request JSON
-        data = request.json
-        if not data:
-            return {"error": "No data provided"}, 400
-        
-        card_name = data.get("card_name")
-        card = crud_repo.find_by({"card_name": card_name})
-        if card:
-            return {"error":"card already exists"},400
+        # Parse the form data
+        title = request.form.get("title")
+        profile_image = request.files.get("profile_image")
+        other_data = {key: value for key, value in request.form.items() if key not in ["title", "profile_image"]}
 
-       
-        # Create the card using the CRUD repository
-        result = crud_repo.create(data)  # Assuming crud_repo.create is synchronous
-        return {"message": "card created successfully", "result": result}, 201
+        # Validate inputs
+        if not title:
+            return {"error": "title is required"}, 400
+
+        
+
+        # Upload the profile image (if provided)
+        profile_image_link = None
+        if profile_image:
+            profile_image_link = crud_repo.upload_image(profile_image)
+            if not profile_image_link:
+                return {"error": "Failed to upload profile image to GitHub"}, 500
+
+        # Combine all data
+        data = {"title": title, "profile_image": profile_image_link, **other_data}
+
+        # Create the member in Firestore
+        result = crud_repo.create(data)
+        return {"message": "Member created successfully", "result": result}, 201
+
 
    
-@handle_exception 
-@https_fn.on_request()
+@handle_exception
+@https_fn.on_request(cors=cors_config)
 def update_card(request):
     
-        # Validate Content-Type
-        if request.headers.get("Content-Type") != "application/json":
-            return {"error": "Unsupported Media Type"}, 415
+        # Validate Content-Type for multipart/form-data
+        if "multipart/form-data" not in request.headers.get("Content-Type", ""):
+            return {"error": "Unsupported Media Type. Use 'multipart/form-data' for file uploads."}, 415
 
-        # Parse the request JSON
-        data = request.json
-        if not data:
-            return {"error": "No data provided"}, 400
+        # Extract text data and file from the request
+        
+        card_id = request.form.get("id")
+        profile_image = request.files.get("profile_image")  # Extracting image file
+        
+        # Extract other fields dynamically
+        other_fields = {key: value for key, value in request.form.items() if key not in [ "id", "profile_image"]}
 
-        # Extract the card_name and check if it's provided
-        card_name = data.get("card_name")
-        if not card_name:
-            return {"error": "Missing required field: card_name"}, 400
+        # Check for required fields
+        if  not card_id:
+            return {"error": "Missing required fields:  id"}, 400
 
-        # Remove card_name from the fields to update (so it's not updated itself)
-        fields_to_update = {key: value for key, value in data.items() }
+        # Fields to be updated 
+        fields_to_update = {}
 
-        if not fields_to_update:
-            return {"error": "No fields to update provided"}, 400
-       
-        id = data.get("id")
+        # Add other fields to update (besides title and profile_image)
+        fields_to_update.update(other_fields)
 
-        # Update the card using the CRUD repository
-        result = crud_repo.update(id, fields_to_update)
+        # Handle profile image update
+        if profile_image:
+            # Extract current member details
+            member = crud_repo.find_by({"id": card_id})
+            if member:
+                old_profile_image_link = member.get("profile_image")
+
+                # Delete the old profile image from GitHub if it exists
+                if old_profile_image_link:
+                    cover_image_delete = crud_repo.delete_link(old_profile_image_link)
+                    if not cover_image_delete:
+                        return {"error": "Failed to delete the old profile image from GitHub"}, 500
+
+                # Upload the new profile image to GitHub
+                new_image_link = crud_repo.upload_image(profile_image)
+                if not new_image_link:
+                    return {"error": "Failed to upload new profile image to GitHub"}, 500
+                
+                # Add new profile image link to fields_to_update
+                fields_to_update["profile_image"] = new_image_link
+
+        # Update the member details
+        result = crud_repo.update(card_id, fields_to_update)
         if not result:
-            return {"error": f"card with name '{card_name}' not found"}, 404
+            return {"error": f" card with id '{card_id}' not found"}, 404
 
-        return {"message": "card updated successfully", "result": result}, 200
-
+        return {"message": "Card updated successfully", "result": result}, 200
     
 
 @handle_exception
-@https_fn.on_request()
+@https_fn.on_request(cors=cors_config)
 def delete_card(request):
     
-        # Validate Content-Type
-        if request.headers.get("Content-Type") != "application/json":
-            return {"error": "Unsupported Media Type"}, 415
-
-        # Parse the request JSON
-        data = request.json
-        if not data:
-            return {"error": "No data provided"}, 400
-
-        # Extract the card_name and check if it's provided
-        card_name = data.get("card_name")
-        if not card_name:
-            return {"error": "Missing required field: card_name"}, 400
-
-        
-
         # Extract the ID of the card to delete
-        card_id = data.get("id")
+        card_id = request.args.get("id")
 
-        # Delete the card using the CRUD repository
+        # Find the card by ID to retrieve the profile image link
+        member = crud_repo.find_by({"id": card_id})
+        if not member:
+            return {"error": "Card not found"}, 404
+
+        profile_image_link = member.get("profile_image")
+
+        # If there is a profile image, delete it from GitHub
+        if profile_image_link:
+            cover_image_delete = crud_repo.delete_link(profile_image_link)
+            if not cover_image_delete:
+                return {"error": "Failed to delete the profile image from GitHub"}, 500
+
+        # Delete the member using the CRUD repository
         result = crud_repo.delete(card_id)
         if not result:
             return {"error": "Failed to delete card"}, 500
 
-        return {"message": "card deleted successfully"}, 200
+        return {"message": "Card and profile image deleted successfully"}, 200
+
 
     
 @handle_exception
-@https_fn.on_request()
+@https_fn.on_request(cors=cors_config)
 def get_all_cards(request):
     
         # Fetch all cards using the CRUD repository
@@ -109,20 +140,11 @@ def get_all_cards(request):
    
 
 @handle_exception
-@https_fn.on_request()
+@https_fn.on_request(cors=cors_config)
 def get_card_by_id(request):
     
-        # Validate Content-Type
-        if request.headers.get("Content-Type") != "application/json":
-            return {"error": "Unsupported Media Type"}, 415
-
-        # Parse the request JSON
-        data = request.json
-        if not data:
-            return {"error": "No data provided"}, 400
-
         # Extract the card card_name from the request
-        id = data.get("id")
+        id = request.args.get("id")
         if not id:
             return {"error": "Missing required field: card_name"}, 400
 

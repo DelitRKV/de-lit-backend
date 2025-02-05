@@ -1,11 +1,11 @@
 from firebase_functions import https_fn
 from Utilities.crud_repo import CrudRepository
-from Utilities.utils import handle_exception
+from Utilities.utils import handle_exception,cors_config
 
 crud_repo = CrudRepository(collection_name="Gallery")
 
 @handle_exception
-@https_fn.on_request()
+@https_fn.on_request(cors=cors_config)
 def create_memory(request):
   
         # Validate Content-Type
@@ -44,26 +44,19 @@ def create_memory(request):
 
     
 @handle_exception
-@https_fn.on_request()
+@https_fn.on_request(cors=cors_config)
 def delete_memory(request):
     
         # Validate Content-Type
-        content_type = request.headers.get("Content-Type", "")
-        if "application/json" not in content_type:
-            return {"error": "Unsupported Media Type"}, 415
-
-        # Parse the request JSON
-        data = request.json
-        if not data:
-            return {"error": "Request body is required"}, 400
-
+       
         # Retrieve the image link and Firestore document ID
-        image_link = data.get("image_link")
-        document_id = data.get("id")
+        
+        document_id = request.args.get("id")
+        image = crud_repo.find_by({"id":id})
 
-        if not image_link or not document_id:
-            return {"error": "'image_link' and 'document_id' are required"}, 400
-
+        if not image:
+           return {"error": "image not found"}, 404
+        image_link = image.get("image_link")
         # Delete the image from GitHub
         delete_response = crud_repo.delete_link(image_link)
         if not delete_response:

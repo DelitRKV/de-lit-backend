@@ -1,11 +1,11 @@
 from firebase_functions import https_fn
 from Utilities.crud_repo import CrudRepository
-from Utilities.utils import handle_exception
+from Utilities.utils import handle_exception,cors_config
 
 crud_repo = CrudRepository(collection_name="Contributions")
 
 @handle_exception
-@https_fn.on_request()
+@https_fn.on_request(cors=cors_config)
 def create_contribution(request):
     
         # Validate Content-Type
@@ -41,7 +41,7 @@ def create_contribution(request):
    
 
 @handle_exception
-@https_fn.on_request()
+@https_fn.on_request(cors=cors_config)
 def update_contribution(request):
    
         # Validate Content-Type for multipart/form-data
@@ -97,20 +97,13 @@ def update_contribution(request):
    
 
 @handle_exception
-@https_fn.on_request()
+@https_fn.on_request(cors=cors_config)
 def delete_contribution(request):
     
-        # Validate Content-Type
-        if request.headers.get("Content-Type") != "application/json":
-            return {"error": "Unsupported Media Type"}, 415
-
-        # Parse the request JSON
-        data = request.json
-        if not data:
-            return {"error": "No data provided"}, 400
+       
 
         # Extract the ID of the contribution to delete
-        contribution_id = data.get("id")
+        contribution_id = request.args.get("id")
 
         # Find the contribution by ID to retrieve the profile file link
         contribution = crud_repo.find_by({"id": contribution_id})
@@ -134,7 +127,7 @@ def delete_contribution(request):
 
 
 @handle_exception
-@https_fn.on_request()
+@https_fn.on_request(cors=cors_config)
 def get_all_contributions(request):
     
         # Fetch all contributions using the CRUD repository
@@ -148,20 +141,13 @@ def get_all_contributions(request):
    
 
 @handle_exception
-@https_fn.on_request()
+@https_fn.on_request(cors=cors_config)
 def get_contribution_by_id(request):
     
-        # Validate Content-Type
-        if request.headers.get("Content-Type") != "application/json":
-            return {"error": "Unsupported Media Type"}, 415
-
-        # Parse the request JSON
-        data = request.json
-        if not data:
-            return {"error": "No data provided"}, 400
+       
 
         # Extract the contribution contribution_title from the request
-        contribution_id = data.get("id")
+        contribution_id = request.args.get("id")
         if not contribution_id:
             return {"error": "Missing required field: contribution_id"}, 400
 

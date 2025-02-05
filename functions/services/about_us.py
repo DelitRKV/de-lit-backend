@@ -1,11 +1,12 @@
 from firebase_functions import https_fn
 from Utilities.crud_repo import CrudRepository
-from Utilities.utils import handle_exception
+from Utilities.utils import handle_exception,cors_config
+
 
 crud_repo = CrudRepository(collection_name="AboutUs")
 
 @handle_exception
-@https_fn.on_request()
+@https_fn.on_request(cors=cors_config)
 def create_member(request):
     
         # Validate Content-Type
@@ -41,7 +42,7 @@ def create_member(request):
    
 
 @handle_exception
-@https_fn.on_request()
+@https_fn.on_request(cors=cors_config)
 def update_member(request):
     
         # Validate Content-Type for multipart/form-data
@@ -49,19 +50,18 @@ def update_member(request):
             return {"error": "Unsupported Media Type. Use 'multipart/form-data' for file uploads."}, 415
 
         # Extract text data and file from the request
-        member_name = request.form.get("member_name")
         member_id = request.form.get("id")
         profile_image = request.files.get("profile_image")  # Extracting image file
         
         # Extract other fields dynamically
-        other_fields = {key: value for key, value in request.form.items() if key not in ["member_name", "id", "profile_image"]}
+        other_fields = {key: value for key, value in request.form.items() if key not in [ "id", "profile_image"]}
 
         # Check for required fields
-        if not member_name or not member_id:
+        if  not member_id:
             return {"error": "Missing required fields: member_name or id"}, 400
 
         # Fields to be updated (initially with member_name)
-        fields_to_update = {"member_name": member_name}
+        fields_to_update = {}
 
         # Add other fields to update (besides member_name and profile_image)
         fields_to_update.update(other_fields)
@@ -95,20 +95,11 @@ def update_member(request):
         return {"message": "Member updated successfully", "result": result}, 200
 
 @handle_exception
-@https_fn.on_request()
+@https_fn.on_request(cors=cors_config)
 def delete_member(request):
     
-        # Validate Content-Type
-        if request.headers.get("Content-Type") != "application/json":
-            return {"error": "Unsupported Media Type"}, 415
-
-        # Parse the request JSON
-        data = request.json
-        if not data:
-            return {"error": "No data provided"}, 400
-
         # Extract the ID of the member to delete
-        member_id = data.get("id")
+        member_id = request.args.get("id")
 
         # Find the member by ID to retrieve the profile image link
         member = crud_repo.find_by({"id": member_id})
@@ -132,7 +123,7 @@ def delete_member(request):
 
 
 @handle_exception
-@https_fn.on_request()
+@https_fn.on_request(cors=cors_config)
 def get_all_members(request):
    
         # Fetch all members using the CRUD repository
@@ -145,20 +136,11 @@ def get_all_members(request):
 
 
 @handle_exception
-@https_fn.on_request()
+@https_fn.on_request(cors=cors_config)
 def get_member_by_id(request):
     
-        # Validate Content-Type
-        if request.headers.get("Content-Type") != "application/json":
-            return {"error": "Unsupported Media Type"}, 415
-
-        # Parse the request JSON
-        data = request.json
-        if not data:
-            return {"error": "No data provided"}, 400
-
         # Extract the member member_name from the request
-        member_id = data.get("id")
+        member_id = request.args.get("id")
         if not member_id:
             return {"error": "Missing required field: member_id"}, 400
 
@@ -168,6 +150,38 @@ def get_member_by_id(request):
             return {"error": f"member with member_id '{member_id}' not found"}, 404
 
         return {"message": "member retrieved successfully", "member": member}, 200
+    
+@handle_exception
+@https_fn.on_request(cors=cors_config)
+def change_name(request):
+    
+        if request.headers.get("Content-Type") != "application/json":
+            return {"error": "Unsupported Media Type"}, 415
 
+        # Parse the request JSON
+        data = request.json
+        if not data:
+            return {"error": "No data provided"}, 400
+         # Fetch all members using the CRUD repository
+        members = crud_repo.get_all()  # Assuming crud_repo.find_all() returns all documents in the collection
+        if not members:
+            return {"message": "No members found"}, 404
+        #The name of the Current Year
+        batch = data.get("year")
+        #The name they want to assign to the batch
+        batch_name = data.get("batch_name")
+        
+        for member in members:
+            member_id = member.get("id")
+            if(member.get("year")==batch):
+                update={"batch":batch_name}
+                if not crud_repo.update(member_id,update):
+                    return {"message": f"Failed to update the member with member_id '{member_id}'"},404
+        return {"message":"Successfully changed the batch_name"},200
+                            
+                
+            
+        
+        
 
 

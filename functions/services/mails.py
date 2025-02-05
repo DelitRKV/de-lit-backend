@@ -1,12 +1,12 @@
 from firebase_functions import https_fn
 from Utilities.crud_repo import CrudRepository
-from Utilities.utils import handle_exception
+from Utilities.utils import handle_exception,cors_config
 
 
 crud_repo = CrudRepository(collection_name="E-Mails")
 
 @handle_exception
-@https_fn.on_request()
+@https_fn.on_request(cors=cors_config)
 def upload_mail(request):
     
         # Validate Content-Type
@@ -31,7 +31,7 @@ def upload_mail(request):
     
 
 @handle_exception
-@https_fn.on_request()
+@https_fn.on_request(cors=cors_config)
 def get_all_emails(request):
    
         # Fetch all mails using the CRUD repository

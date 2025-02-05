@@ -7,6 +7,8 @@ from datetime import datetime
 from Utilities.git_hub_utilities import upload_to_github, delete_file_from_github
 from Utilities.utils import REPO_OWNER, REPO_NAME, BRANCH
 import os
+import random
+
 
 #service_account_path = os.getenv("GOOGLE_APPLICATION_CREDENTIALS")
 #credentials = service_account.Credentials.from_service_account_file(service_account_path)
@@ -40,6 +42,18 @@ class CrudRepository(Generic[T]):
             raise HTTPException(status_code=404, detail="Document not found")
         doc_ref.delete()
         return {"message": "Document deleted successfully"}
+    def delete_all(self) -> Optional[T]:
+        docs = self.collection.stream()  # Get all documents
+        deleted_count = 0
+
+        for doc in docs:
+            doc.delete()  # Delete each document
+            deleted_count += 1
+
+        if deleted_count == 0:
+            raise HTTPException(status_code=404, detail="No documents found")
+
+        return {"message": f"{deleted_count} documents deleted successfully"}
 
     def get(self, id: str) -> Optional[T]:
         doc = self.collection.document(id).get()
@@ -85,12 +99,19 @@ class CrudRepository(Generic[T]):
                 raise HTTPException(status_code=413, detail="File size exceeds the limit of 10 MB.")
 
             file.stream.seek(0)
+            # Generate timestamp
+            timestamp = datetime.now().strftime("%Y%m%d_%H%M")
+
+            # Modify the filename to include timestamp
+            file_name_with_timestamp = f"{timestamp}_{random.random()}_{file.filename}"
             
             
-            response =upload_to_github(file_content, file.filename,self.collection_name)
+            response =upload_to_github(file_content, file_name_with_timestamp,self.collection_name)
+            
+            
 
             if response.status_code == 201:
-                file_url = f"https://raw.githubusercontent.com/{REPO_OWNER}/{REPO_NAME}/{BRANCH}/{self.collection_name}/{file.filename}"
+                file_url = f"https://raw.githubusercontent.com/{REPO_OWNER}/{REPO_NAME}/{BRANCH}/{self.collection_name}/{file_name_with_timestamp}"
             else:
                 raise HTTPException(status_code=400, detail="Error uploading file to GitHub")
 
